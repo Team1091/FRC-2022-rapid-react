@@ -20,6 +20,10 @@ public final class Constants {
         public final static int backRightMotorChannel = 1;
     }
 
+    public final class ConveyerSubs {
+        public final static int conveyerMotorChannel = 1;
+    }
+
     public final class XboxController {
         public final static int port = 1;
     }
