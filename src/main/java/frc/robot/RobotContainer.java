@@ -4,14 +4,15 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ConveyerCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.MacanumDriveCommand;
 import frc.robot.subsystems.ConveyerSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 
@@ -26,7 +27,10 @@ public class RobotContainer {
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
     private final ConveyerSubsystem conveyerSubsystem = new ConveyerSubsystem();
+    private final ClimbSubsystem climbSubsystem = new ClimbSubsystem(new DoubleSolenoid(PneumaticsModuleType.CTREPCM,Constants.Pnemautics.pneumaticIn,Constants.Pnemautics.pneumaticOut));
+                                                                                //module type may not be correct
     private final XboxController controller = new XboxController(Constants.XboxController.port);
+
 
     private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -35,7 +39,7 @@ public class RobotContainer {
      */
     public RobotContainer() {
         // Configure the button bindings
-        configureButtonBindings();
+        configureButtOnBindings();
 
         driveTrainSubsystem.setDefaultCommand(
                 new MacanumDriveCommand(
@@ -55,23 +59,25 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureButtonBindings() {
+    private void configureButtOnBindings() {
+        //up pneumatic
+        var xButton = new JoystickButton(controller,XboxController.Button.kX.value);
+        xButton.whenActive(new ClimbCommand(climbSubsystem, 1) );
 
-        //forward conveyer
+        //down pneumatic
+        var aButton = new JoystickButton(controller,XboxController.Button.kA.value);
+        aButton.whenActive(new ClimbCommand(climbSubsystem, -1) );
+
+        //forward conveyor
         var rightBumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
         rightBumper.whenActive(new ConveyerCommand(conveyerSubsystem, 1));
 
-        //reverse conveyer
+        //reverse conveyor
         var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
         leftBumper.whenActive(new ConveyerCommand(conveyerSubsystem, -1));
 
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return m_autoCommand;
