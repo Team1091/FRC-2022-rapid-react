@@ -7,42 +7,42 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase
 {
-    private MotorController ArmRotateMotor;
+    private MotorController armRotateMotor;
 
-    private MotorController ArmLiftMotor;
+    private MotorController armLiftMotor;
 
     public ArmSubsystem()
     {
-        ArmRotateMotor = new Victor(3);
-        ArmLiftMotor = new Victor(4);
+        armRotateMotor = new Victor(3);
+        armLiftMotor = new Victor(4);
     }
 
     public void rotateArmRight ()
     {
-        ArmRotateMotor.set(.2);
+        armRotateMotor.set(.2);
         wait(2000);
-        ArmRotateMotor.stopMotor();
+        armRotateMotor.stopMotor();
     }
 
     public void rotateArmLeft ()
     {
-        ArmRotateMotor.set(-.2);
+        armRotateMotor.set(-.2);
         wait(2000);
-        ArmRotateMotor.stopMotor();
+        armRotateMotor.stopMotor();
     }
 
     public void liftArmUp ()
     {
-        ArmLiftMotor.set(.2);
+        armLiftMotor.set(.2);
         wait(2000);
-        ArmLiftMotor.stopMotor();
+        armLiftMotor.stopMotor();
     }
 
     public void liftArmDown ()
     {
-        ArmLiftMotor.set(-.2);
+        armLiftMotor.set(-.2);
         wait(2000);
-        ArmLiftMotor.stopMotor();
+        armLiftMotor.stopMotor();
     }
 
     public void wait(int milliseconds)
