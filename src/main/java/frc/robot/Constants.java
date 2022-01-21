@@ -25,6 +25,11 @@ public final class Constants {
         public final static int conveyerMotorChannel = 1;
     }
 
+    public final class Pnemautics {
+        public final static int pneumaticIn = 1;
+        public final static int pneumaticOut = 1;
+    }
+
     public final class XboxController {
         public final static int port = 1;
     }
