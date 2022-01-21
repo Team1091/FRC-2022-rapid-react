@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -10,16 +13,16 @@ import frc.robot.Constants;
 public class DriveTrainSubsystem extends SubsystemBase {
 
     private MecanumDrive mecanumDrive;
-    private MotorController frontLeftMotor;
-    private MotorController frontRightMotor;
-    private MotorController backLeftMotor;
-    private MotorController backRightMotor;
+    private CANSparkMax frontLeftMotor;
+    private CANSparkMax frontRightMotor;
+    private CANSparkMax backLeftMotor;
+    private CANSparkMax backRightMotor;
 
     public DriveTrainSubsystem() {
-        this.frontLeftMotor = new Spark(Constants.DriveTrain.frontLeftMotorChannel);
-        this.backLeftMotor = new Spark(Constants.DriveTrain.backLeftMotorChannel);
-        this.frontRightMotor = new Spark(Constants.DriveTrain.frontRightMotorChannel);
-        this.backRightMotor = new Spark(Constants.DriveTrain.backRightMotorChannel);
+        this.frontLeftMotor = new CANSparkMax(Constants.DriveTrain.frontLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.backLeftMotor = new CANSparkMax(Constants.DriveTrain.backLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.frontRightMotor = new CANSparkMax(Constants.DriveTrain.frontRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.backRightMotor = new CANSparkMax(Constants.DriveTrain.backRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         mecanumDrive = new MecanumDrive(
                 this.frontLeftMotor,
