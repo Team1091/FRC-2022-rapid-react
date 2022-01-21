@@ -1,6 +1,7 @@
 package frc.robot.vision;
 
 //import edu.wpi.first.wpilibj.vision.VisionPipeline;
+
 import edu.wpi.first.vision.VisionPipeline;
 import org.opencv.core.*;
 import org.opencv.features2d.FastFeatureDetector;
