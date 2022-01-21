@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -13,6 +14,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     private CANSparkMax frontRightMotor;
     private CANSparkMax backLeftMotor;
     private CANSparkMax backRightMotor;
+    private RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
+    private RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
 
     public DriveTrainSubsystem() {
         this.frontLeftMotor = new CANSparkMax(Constants.DriveTrain.frontLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -37,5 +40,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
 
         mecanumDrive.driveCartesian(yVelocity, xVelocity, rotationVelocity);
+    }
+    public double getLeftEncoder(){
+        return leftEncoder.getPosition();
+    }
+
+    public double getRightEncoder(){
+        return rightEncoder.getPosition();
     }
 }
