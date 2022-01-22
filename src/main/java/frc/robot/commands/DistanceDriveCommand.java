@@ -6,38 +6,34 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class DistanceDriveCommand extends CommandBase {
     private final DriveTrainSubsystem driveTrainSubsystem;
     private final Double xDistance;
-    private final Double yDistance;
-    private final Double rotationVelocity;
+    private double leftEncoderTarget;
 
     public DistanceDriveCommand(
             DriveTrainSubsystem driveTrainSubsystem,
-            Double xDistance,
-            Double yDistance,
-            Double rotationVelocity
+            Double xDistance
     ) {
         this.driveTrainSubsystem = driveTrainSubsystem;
         this.xDistance = xDistance;
-        this.yDistance = yDistance;
-        this.rotationVelocity = rotationVelocity;
         addRequirements(this.driveTrainSubsystem);
     }
 
     @Override
     public void initialize() {
+       this.leftEncoderTarget = driveTrainSubsystem.getLeftEncoder() + xDistance;
     }
 
     @Override
     public void execute() {
-        driveTrainSubsystem.mecanumDrive(xDistance, yDistance, rotationVelocity);
+        driveTrainSubsystem.mecanumDrive(0.5, 0, 0);
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        driveTrainSubsystem.mecanumDrive(0, 0, 0);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return (driveTrainSubsystem.getLeftEncoder() > leftEncoderTarget);
     }
 }
