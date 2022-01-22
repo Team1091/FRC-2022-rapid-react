@@ -5,13 +5,13 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 import java.util.function.Supplier;
 
-public class MacanumDriveCommand extends CommandBase {
+public class MecanumDriveCommand extends CommandBase {
     private final DriveTrainSubsystem driveTrainSubsystem;
     private final Supplier<Double> xVelocity;
     private final Supplier<Double> yVelocity;
     private final Supplier<Double> rotationVelocity;
 
-    public MacanumDriveCommand(
+    public MecanumDriveCommand(
             DriveTrainSubsystem driveTrainSubsystem,
             Supplier<Double> xVelocity,
             Supplier<Double> yVelocity,

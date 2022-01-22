@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cscore.VideoCamera;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -15,11 +14,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.subsystems.ConveyerSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-
-import java.time.Duration;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,8 +27,8 @@ import java.time.Duration;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-    private final ConveyerSubsystem conveyerSubsystem = new ConveyerSubsystem();
-    private final ClimbSubsystem climbSubsystem = new ClimbSubsystem(new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pnemautics.pneumaticIn, Constants.Pnemautics.pneumaticOut));
+    private final ConveyorSubsystem conveyerSubsystem = new ConveyorSubsystem();
+    private final ClimbSubsystem climbSubsystem = new ClimbSubsystem(new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.pneumaticIn, Constants.Pneumatics.pneumaticOut));
     private final VisionSubsystem visionSubsystem = new VisionSubsystem();
     //module type may not be correct
     private final XboxController controller = new XboxController(Constants.XboxController.port);
@@ -45,7 +42,7 @@ public class RobotContainer {
         configureButtonBindings();
 
         driveTrainSubsystem.setDefaultCommand(
-                new MacanumDriveCommand(
+                new MecanumDriveCommand(
                         driveTrainSubsystem,
                         () -> (controller.getLeftY()),
                         () -> (controller.getLeftX()),
@@ -73,11 +70,11 @@ public class RobotContainer {
 
         //forward conveyor
         var rightBumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
-        rightBumper.whenActive(new ConveyerCommand(conveyerSubsystem, 1));
+        rightBumper.whenActive(new ConveyorCommand(conveyerSubsystem, 1));
 
         //reverse conveyor
         var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
-        leftBumper.whenActive(new ConveyerCommand(conveyerSubsystem, -1));
+        leftBumper.whenActive(new ConveyorCommand(conveyerSubsystem, -1));
 
     }
 
@@ -90,7 +87,7 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         return new SequentialCommandGroup(
                 new ParallelRaceGroup(
-                        new ConveyerCommand(conveyerSubsystem, 1),
+                        new ConveyorCommand(conveyerSubsystem, 1),
                         new TimerCommand(5)
                 ),
                 new DistanceDriveCommand(driveTrainSubsystem, 3.0)

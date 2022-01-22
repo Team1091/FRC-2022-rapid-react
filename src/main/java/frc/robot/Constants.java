@@ -21,11 +21,11 @@ public final class Constants {
     }
 
 
-    public final class ConveyerSubs {
-        public final static int conveyerMotorChannel = 1;
+    public final class ConveyorSubs {
+        public final static int conveyorMotorChannel = 1;
     }
 
-    public final class Pnemautics {
+    public final class Pneumatics {
         public final static int pneumaticIn = 1;
         public final static int pneumaticOut = 1;
     }
