@@ -4,7 +4,6 @@ import edu.wpi.first.cscore.VideoCamera;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.vision.BallPosition;
-import org.ejml.data.Matrix;
 
 import frc.robot.vision.GripPipeline;
 
@@ -14,7 +13,7 @@ import java.util.List;
 public class VisionSubsystem extends SubsystemBase {
     private final int cameraPort = Constants.Vision.cameraPort;
     private VideoCamera videoCamera;
-    //private Mat videoMatrix[];
+    //private Mat videoMatrix;
     private GripPipeline gripPipeline;
 
     public VisionSubsystem(VideoCamera videoCamera) {
@@ -29,6 +28,7 @@ public class VisionSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        //videoCamera
         //gripPipeline.process(videoMatrix);
     }
 

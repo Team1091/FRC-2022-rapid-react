@@ -3,6 +3,7 @@ package frc.robot.vision;
 //import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 import edu.wpi.first.vision.VisionPipeline;
+import frc.robot.Constants;
 import org.opencv.core.*;
 import org.opencv.features2d.FastFeatureDetector;
 import org.opencv.imgproc.Imgproc;
@@ -38,8 +39,8 @@ public class GripPipeline implements VisionPipeline {
     public void process(Mat source0) {
         // Step Resize_Image0:
         Mat resizeImageInput = source0;
-        double resizeImageWidth = 160.0;
-        double resizeImageHeight = 120.0;
+        double resizeImageWidth = Constants.Vision.resizeImageWidth;
+        double resizeImageHeight = Constants.Vision.resizeImageHeight;
         int resizeImageInterpolation = Imgproc.INTER_CUBIC;
         resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 

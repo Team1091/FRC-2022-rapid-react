@@ -36,5 +36,7 @@ public final class Constants {
 
     public final class Vision {
         public final static int cameraPort = 1;
+        public final static double resizeImageWidth = 160.0;
+        public final static double resizeImageHeight = 120.0;
     }
 }
