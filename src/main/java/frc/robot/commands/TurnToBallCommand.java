@@ -58,12 +58,16 @@ public class TurnToBallCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        driveTrainSubsystem.mecanumDrive(0,0,0);
     }
 
     @Override
     public boolean isFinished() {
-        return lastSeenPosition!=null&&Math.abs(lastSeenPosition.x-Constants.Vision.resizeImageWidth/2)< tolerance;
+        var ballInSight = lastSeenPosition!=null;
+        var ballScoped = ballInSight &&
+                         Math.abs(lastSeenPosition.x-Constants.Vision.resizeImageWidth/2)< tolerance;
+
+        return ballScoped;
 
     }
 }
