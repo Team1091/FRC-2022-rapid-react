@@ -13,10 +13,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,6 +27,7 @@ public class RobotContainer {
     private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem(new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.pneumaticIn, Constants.Pneumatics.pneumaticOut));
     private final VisionSubsystem visionSubsystem = new VisionSubsystem();
+    private final BallConsumptionSubsystem ballConsumptionSubsystem = new BallConsumptionSubsystem();
     //module type may not be correct
     private final XboxController controller = new XboxController(Constants.XboxController.port);
 
@@ -60,11 +58,11 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        //up pneumatic
+        //up pneumatic climb
         var xButton = new JoystickButton(controller, XboxController.Button.kX.value);
         xButton.whenActive(new ClimbCommand(climbSubsystem, 1));
 
-        //down pneumatic
+        //down pneumatic climb
         var aButton = new JoystickButton(controller, XboxController.Button.kA.value);
         aButton.whenActive(new ClimbCommand(climbSubsystem, -1));
 
@@ -76,6 +74,13 @@ public class RobotContainer {
         var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
         leftBumper.whenActive(new ConveyorCommand(conveyorSubsystem, -1));
 
+        //ball consumption system down and spin rotors in
+        var bButton = new JoystickButton(controller, XboxController.Button.kB.value);
+        //bButton.whenActive()
+
+        //ball consumption system up and spin rotors out
+        var yButton = new JoystickButton(controller, XboxController.Button.kY.value);
+        //yButton.whenActive()
     }
 
     /**

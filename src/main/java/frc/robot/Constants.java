@@ -28,6 +28,10 @@ public final class Constants {
     public static final class Pneumatics {
         public final static int pneumaticIn = 1;
         public final static int pneumaticOut = 1;
+        public final static int grabberIn = 1;
+        public final static int grabberOut = 1;
+        public final static int inputMotorChannel = 1; //is a motor not a solenoid
+        public final static double inputMotorSpeed = 0.8; //make negative to reverse rotor
     }
 
     public static final class XboxController {
