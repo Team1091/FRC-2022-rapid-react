@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.vision.BallLocation;
 import org.opencv.core.Point;
 
 import java.util.Comparator;
@@ -11,7 +12,7 @@ import java.util.Comparator;
 public class StrafeToBallCommand extends CommandBase {
     private final VisionSubsystem visionSubsystem;
     private final DriveTrainSubsystem driveTrainSubsystem;
-    private Point lastSeenPosition = null;
+    private BallLocation lastSeenPosition = null;
     private  int tolerance;
 
     public StrafeToBallCommand(
@@ -56,12 +57,12 @@ public class StrafeToBallCommand extends CommandBase {
             return false;
         }
 
-        var ballScoped = Math.abs(lastSeenPosition.x-Constants.Vision.resizeImageWidth/2)< tolerance;
+        var ballScoped = Math.abs(lastSeenPosition.getPoint().x-Constants.Vision.resizeImageWidth/2)< tolerance;
         return ballScoped;
     }
 
     private void slideToBall() {
-        if (lastSeenPosition.x> Constants.Vision.resizeImageWidth/2){
+        if (lastSeenPosition.getPoint().x> Constants.Vision.resizeImageWidth/2){
             driveTrainSubsystem.mecanumDrive(.4,0,0);
 
         } else{

@@ -1,9 +1,11 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.vision.BallLocation;
 import org.opencv.core.Point;
 
 import java.util.Comparator;
@@ -12,7 +14,7 @@ import java.util.Comparator;
 public class TurnToBallCommand extends CommandBase {
     private final VisionSubsystem visionSubsystem;
     private final DriveTrainSubsystem driveTrainSubsystem;
-    private Point lastSeenPosition = null;
+    private BallLocation lastSeenPosition = null;
     private final int tolerance;
 
     public TurnToBallCommand(
@@ -55,10 +57,25 @@ public class TurnToBallCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        var ballInSight = lastSeenPosition!=null;
+        if (!imageIsUpdating()){
+            return true;
+        }
 
-        return ballInSight &&
-                Math.abs(lastSeenPosition.x-Constants.Vision.resizeImageWidth/2)< tolerance;
+        var ballInSight = lastSeenPosition!=null;
+        boolean ballScoped = ballInSight &&
+                             Math.abs(lastSeenPosition.getPoint().x - Constants.Vision.resizeImageWidth / 2) < tolerance;
+        return ballScoped;
+    }
+
+    private boolean imageIsUpdating() {
+        var currentBall = visionSubsystem.getClosestBall();
+        if (currentBall==null||lastSeenPosition==null){
+            return true;
+        }
+
+        var same = lastSeenPosition.equals(currentBall);
+        var age = currentBall.getAgeInMilliseconds();
+        return same && age>=3000;
     }
 
     private void lookForBall() {
@@ -66,7 +83,7 @@ public class TurnToBallCommand extends CommandBase {
     }
 
     private void turnToBall() {
-        if (lastSeenPosition.x> Constants.Vision.resizeImageWidth/2){
+        if (lastSeenPosition.getPoint().x> Constants.Vision.resizeImageWidth/2){
             driveTrainSubsystem.mecanumDrive(0,0,0.4);
             return;
         }
