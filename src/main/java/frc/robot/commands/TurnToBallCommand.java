@@ -39,21 +39,13 @@ public class TurnToBallCommand extends CommandBase {
 
     @Override
     public void execute() {
-        var ballLocations = visionSubsystem.getBallLocation();
-        var closestBall = ballLocations.stream().max(Comparator.comparing(it->it.y)).orElse(null);
-        lastSeenPosition = closestBall;
-       if (closestBall==null){
-           driveTrainSubsystem.mecanumDrive(0,0,0.3);
+        lastSeenPosition = visionSubsystem.getClosestBall();
+       if (lastSeenPosition==null){
+           lookForBall();
            return;
        }
 
-       if (closestBall.x> Constants.Vision.resizeImageWidth/2){
-           driveTrainSubsystem.mecanumDrive(0,0,0.4);
-
-       } else{
-           driveTrainSubsystem.mecanumDrive(0,0,-0.4);
-       }
-
+        turnToBall();
     }
 
     @Override
@@ -66,7 +58,19 @@ public class TurnToBallCommand extends CommandBase {
         var ballInSight = lastSeenPosition!=null;
 
         return ballInSight &&
-                         Math.abs(lastSeenPosition.x-Constants.Vision.resizeImageWidth/2)< tolerance;
+                Math.abs(lastSeenPosition.x-Constants.Vision.resizeImageWidth/2)< tolerance;
+    }
 
+    private void lookForBall() {
+        driveTrainSubsystem.mecanumDrive(0,0,0.3);
+    }
+
+    private void turnToBall() {
+        if (lastSeenPosition.x> Constants.Vision.resizeImageWidth/2){
+            driveTrainSubsystem.mecanumDrive(0,0,0.4);
+            return;
+        }
+
+        driveTrainSubsystem.mecanumDrive(0,0,-0.4);
     }
 }

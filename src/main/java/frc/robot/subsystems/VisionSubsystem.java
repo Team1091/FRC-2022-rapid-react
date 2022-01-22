@@ -10,6 +10,7 @@ import frc.robot.vision.GripPipeline;
 import org.opencv.core.Point;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,9 +38,13 @@ public class VisionSubsystem extends SubsystemBase {
         visionThread.start();
     }
 
-    public List<Point> getBallLocation() {
+    public List<Point> getBallLocations() {
         return rawPositions;
         //this just returns the collected list of points from the vision thread
     }
 
+    public Point getClosestBall(){
+        var ballLocations = getBallLocations();
+       return ballLocations.stream().max(Comparator.comparing(it->it.y)).get();
+    }
 }

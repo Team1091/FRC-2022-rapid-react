@@ -36,17 +36,12 @@ public class StrafeToBallCommand extends CommandBase {
 
     @Override
     public void execute() {
-        var ballLocations = visionSubsystem.getBallLocation();
-        var closestBall = ballLocations.stream().max(Comparator.comparing(it->it.y)).get();
-        lastSeenPosition = closestBall;
-
-        if (closestBall.x> Constants.Vision.resizeImageWidth/2){
-            driveTrainSubsystem.mecanumDrive(.4,0,0);
-
-        } else{
-            driveTrainSubsystem.mecanumDrive(-.4,0,0);
+        lastSeenPosition = visionSubsystem.getClosestBall();
+        if (lastSeenPosition==null){
+            return;
         }
 
+        slideToBall();
     }
 
     @Override
@@ -63,7 +58,15 @@ public class StrafeToBallCommand extends CommandBase {
 
         var ballScoped = Math.abs(lastSeenPosition.x-Constants.Vision.resizeImageWidth/2)< tolerance;
         return ballScoped;
+    }
 
+    private void slideToBall() {
+        if (lastSeenPosition.x> Constants.Vision.resizeImageWidth/2){
+            driveTrainSubsystem.mecanumDrive(.4,0,0);
+
+        } else{
+            driveTrainSubsystem.mecanumDrive(-.4,0,0);
+        }
     }
 }
 
