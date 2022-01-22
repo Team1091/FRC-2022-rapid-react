@@ -7,19 +7,19 @@ import java.util.function.Supplier;
 
 public class MecanumDriveCommand extends CommandBase {
     private final DriveTrainSubsystem driveTrainSubsystem;
-    private final Supplier<Double> xVelocity;
-    private final Supplier<Double> yVelocity;
+    private final Supplier<Double> strafeVelocity;
+    private final Supplier<Double> forwardBackwardVelocity;
     private final Supplier<Double> rotationVelocity;
 
     public MecanumDriveCommand(
             DriveTrainSubsystem driveTrainSubsystem,
-            Supplier<Double> xVelocity,
-            Supplier<Double> yVelocity,
+            Supplier<Double> strafeVelocity,
+            Supplier<Double> forwardBackwardVelocity,
             Supplier<Double> rotationVelocity
     ) {
         this.driveTrainSubsystem = driveTrainSubsystem;
-        this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
+        this.strafeVelocity = strafeVelocity;
+        this.forwardBackwardVelocity = forwardBackwardVelocity;
         this.rotationVelocity = rotationVelocity;
         addRequirements(this.driveTrainSubsystem);
     }
@@ -30,7 +30,7 @@ public class MecanumDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        driveTrainSubsystem.mecanumDrive(xVelocity.get(), yVelocity.get(), rotationVelocity.get());
+        driveTrainSubsystem.mecanumDrive(strafeVelocity.get(), forwardBackwardVelocity.get(), rotationVelocity.get());
     }
 
     @Override
