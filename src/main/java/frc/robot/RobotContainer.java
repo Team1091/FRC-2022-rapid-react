@@ -27,7 +27,7 @@ import frc.robot.subsystems.VisionSubsystem;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-    private final ConveyorSubsystem conveyerSubsystem = new ConveyorSubsystem();
+    private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem(new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.pneumaticIn, Constants.Pneumatics.pneumaticOut));
     private final VisionSubsystem visionSubsystem = new VisionSubsystem();
     //module type may not be correct
@@ -70,11 +70,11 @@ public class RobotContainer {
 
         //forward conveyor
         var rightBumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
-        rightBumper.whenActive(new ConveyorCommand(conveyerSubsystem, 1));
+        rightBumper.whenActive(new ConveyorCommand(conveyorSubsystem, 1));
 
         //reverse conveyor
         var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
-        leftBumper.whenActive(new ConveyorCommand(conveyerSubsystem, -1));
+        leftBumper.whenActive(new ConveyorCommand(conveyorSubsystem, -1));
 
     }
 
@@ -87,15 +87,16 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         return new SequentialCommandGroup(
                 new ParallelRaceGroup(
-                        new ConveyorCommand(conveyerSubsystem, 1),
+                        new ConveyorCommand(conveyorSubsystem, 1),
                         new TimerCommand(5)
                 ),
-                new DistanceDriveCommand(driveTrainSubsystem, 3.0)
+                new DistanceDriveCommand(driveTrainSubsystem, 3.0),
+                new TurnToBallCommand(visionSubsystem, driveTrainSubsystem)
 
         );
     }
 
-//    public MacanumDriveCommand getMecanumDriveCommand() {
-//        return new MacanumDriveCommand(driveTrainSubsystem,);
+//    public MecanumDriveCommand getMecanumDriveCommand() {
+//        return new MecanumDriveCommand(driveTrainSubsystem,);
 //    }
 }

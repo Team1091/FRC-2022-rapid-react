@@ -9,25 +9,23 @@ import frc.robot.Constants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
-    private MecanumDrive mecanumDrive;
+    private final MecanumDrive mecanumDrive;
     private CANSparkMax frontLeftMotor;
     private CANSparkMax frontRightMotor;
-    private CANSparkMax backLeftMotor;
-    private CANSparkMax backRightMotor;
-    private RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
-    private RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
+    private final RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
+    private final RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
 
     public DriveTrainSubsystem() {
         this.frontLeftMotor = new CANSparkMax(Constants.DriveTrain.frontLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
-        this.backLeftMotor = new CANSparkMax(Constants.DriveTrain.backLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        CANSparkMax backLeftMotor = new CANSparkMax(Constants.DriveTrain.backLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.frontRightMotor = new CANSparkMax(Constants.DriveTrain.frontRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
-        this.backRightMotor = new CANSparkMax(Constants.DriveTrain.backRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        CANSparkMax backRightMotor = new CANSparkMax(Constants.DriveTrain.backRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         mecanumDrive = new MecanumDrive(
                 this.frontLeftMotor,
-                this.backLeftMotor,
+                backLeftMotor,
                 this.frontRightMotor,
-                this.backRightMotor);
+                backRightMotor);
     }
 
     @Override

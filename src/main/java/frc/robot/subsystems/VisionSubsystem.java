@@ -14,23 +14,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class VisionSubsystem extends SubsystemBase {
-    private final int cameraPort = Constants.Vision.cameraPort;
-    private VideoCamera camera;
-    //private Mat videoMatrix;
-    private GripPipeline gripPipeline;
-    private VisionThread visionThread;
     private List<Point> rawPositions;
 
     public VisionSubsystem() {
-        this.camera = CameraServer.startAutomaticCapture();
-        this.gripPipeline = new GripPipeline();
+        VideoCamera camera = CameraServer.startAutomaticCapture(Constants.Vision.cameraPort);
 
         camera.setResolution(Constants.Vision.resizeImageWidth, Constants.Vision.resizeImageHeight);
 
-        visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
+        //so basically the above converts the findBlobsOutput to a list with a bunch of
+        //points and then it is collected into a new list at the end
+        VisionThread visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
             if (!pipeline.findBlobsOutput().empty()) {
                 rawPositions = pipeline.findBlobsOutput().toList().stream()
-                        .map(it-> it.pt)
+                        .map(it -> it.pt)
                         .collect(Collectors.toList());
                 //so basically the above converts the findBlobsOutput to a list with a bunch of
                 //points and then it is collected into a new list at the end

@@ -13,7 +13,7 @@ import frc.robot.subsystems.ClimbSubsystem;
 public class ClimbCommand extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ClimbSubsystem climbSubsystem;
-    private int inAndOutPneumatic;
+    private final int inAndOutPneumatic;
 
 
     public ClimbCommand(ClimbSubsystem subsystem, int inAndOutPneumatic) {

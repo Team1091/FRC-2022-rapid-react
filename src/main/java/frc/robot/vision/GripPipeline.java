@@ -38,11 +38,10 @@ public class GripPipeline implements VisionPipeline {
     @Override
     public void process(Mat source0) {
         // Step Resize_Image0:
-        Mat resizeImageInput = source0;
         double resizeImageWidth = Double.valueOf(Constants.Vision.resizeImageWidth);
         double resizeImageHeight = Double.valueOf(Constants.Vision.resizeImageHeight);
         int resizeImageInterpolation = Imgproc.INTER_CUBIC;
-        resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
+        resizeImage(source0, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
         // Step HSV_Threshold0:
         Mat hsvThresholdInput = resizeImageOutput;

@@ -13,7 +13,7 @@ import frc.robot.subsystems.ConveyorSubsystem;
 public class ConveyorCommand extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ConveyorSubsystem conveyorSubsystem;
-    private double speed;
+    private final double speed;
 
     /**
      * Creates a new ExampleCommand.

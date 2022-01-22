@@ -13,7 +13,7 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     //Robots Suck Balls
 
-    private MotorController conveyorMotor;
+    private final MotorController conveyorMotor;
     private double speed;
 
     /**
