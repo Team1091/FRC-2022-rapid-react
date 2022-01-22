@@ -39,8 +39,8 @@ public class GripPipeline implements VisionPipeline {
     public void process(Mat source0) {
         // Step Resize_Image0:
         Mat resizeImageInput = source0;
-        double resizeImageWidth = Constants.Vision.resizeImageWidth;
-        double resizeImageHeight = Constants.Vision.resizeImageHeight;
+        double resizeImageWidth = Double.valueOf(Constants.Vision.resizeImageWidth);
+        double resizeImageHeight = Double.valueOf(Constants.Vision.resizeImageHeight);
         int resizeImageInterpolation = Imgproc.INTER_CUBIC;
         resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
