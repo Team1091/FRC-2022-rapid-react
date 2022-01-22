@@ -12,10 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.ConveyerCommand;
-import frc.robot.commands.MacanumDriveCommand;
-import frc.robot.commands.TimerCommand;
+import frc.robot.commands.*;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ConveyerSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -93,9 +90,9 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 new ParallelRaceGroup(
                         new ConveyerCommand(conveyerSubsystem, 1),
-                        new TimerCommand(Duration.ofSeconds(5))
+                        new TimerCommand(5)
                 ),
-                new MacanumDriveCommand(driveTrainSubsystem, () -> 0.0, () -> 1.0, () -> 0.0)
+                new DistanceDriveCommand(driveTrainSubsystem, 3.0)
 
         );
     }
