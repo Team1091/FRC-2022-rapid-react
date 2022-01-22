@@ -44,9 +44,9 @@ public class RobotContainer {
         driveTrainSubsystem.setDefaultCommand(
                 new MecanumDriveCommand(
                         driveTrainSubsystem,
-                        () -> (controller.getLeftY()),
-                        () -> (controller.getLeftX()),
-                        () -> controller.getRightX()
+                        controller::getLeftY,
+                        controller::getLeftX,
+                        controller::getRightX
                 )
         );
 

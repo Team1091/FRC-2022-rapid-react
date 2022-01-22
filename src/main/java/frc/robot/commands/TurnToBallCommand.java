@@ -40,7 +40,7 @@ public class TurnToBallCommand extends CommandBase {
     @Override
     public void execute() {
         var ballLocations = visionSubsystem.getBallLocation();
-        var closestBall = ballLocations.stream().max(Comparator.comparing(it->it.y)).get();
+        var closestBall = ballLocations.stream().max(Comparator.comparing(it->it.y)).orElse(null);
         lastSeenPosition = closestBall;
        if (closestBall==null){
            driveTrainSubsystem.mecanumDrive(0,0,0.3);

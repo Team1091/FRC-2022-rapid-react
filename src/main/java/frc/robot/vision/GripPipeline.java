@@ -22,11 +22,11 @@ import java.io.IOException;
 public class GripPipeline implements VisionPipeline {
 
     //Outputs
-    private Mat resizeImageOutput = new Mat();
-    private Mat hsvThresholdOutput = new Mat();
-    private Mat cvErodeOutput = new Mat();
-    private Mat maskOutput = new Mat();
-    private MatOfKeyPoint findBlobsOutput = new MatOfKeyPoint();
+    private final Mat resizeImageOutput = new Mat();
+    private final Mat hsvThresholdOutput = new Mat();
+    private final Mat cvErodeOutput = new Mat();
+    private final Mat maskOutput = new Mat();
+    private final MatOfKeyPoint findBlobsOutput = new MatOfKeyPoint();
 
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -38,8 +38,8 @@ public class GripPipeline implements VisionPipeline {
     @Override
     public void process(Mat source0) {
         // Step Resize_Image0:
-        double resizeImageWidth = Double.valueOf(Constants.Vision.resizeImageWidth);
-        double resizeImageHeight = Double.valueOf(Constants.Vision.resizeImageHeight);
+        double resizeImageWidth = Constants.Vision.resizeImageWidth;
+        double resizeImageHeight = Constants.Vision.resizeImageHeight;
         int resizeImageInterpolation = Imgproc.INTER_CUBIC;
         resizeImage(source0, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
@@ -202,44 +202,44 @@ public class GripPipeline implements VisionPipeline {
         try {
             File tempFile = File.createTempFile("config", ".xml");
 
-            StringBuilder config = new StringBuilder();
-
-            config.append("<?xml version=\"1.0\"?>\n");
-            config.append("<opencv_storage>\n");
-            config.append("<thresholdStep>10.</thresholdStep>\n");
-            config.append("<minThreshold>50.</minThreshold>\n");
-            config.append("<maxThreshold>220.</maxThreshold>\n");
-            config.append("<minRepeatability>2</minRepeatability>\n");
-            config.append("<minDistBetweenBlobs>10.</minDistBetweenBlobs>\n");
-            config.append("<filterByColor>1</filterByColor>\n");
-            config.append("<blobColor>");
-            config.append((darkBlobs ? 0 : 255));
-            config.append("</blobColor>\n");
-            config.append("<filterByArea>1</filterByArea>\n");
-            config.append("<minArea>");
-            config.append(minArea);
-            config.append("</minArea>\n");
-            config.append("<maxArea>");
-            config.append(Integer.MAX_VALUE);
-            config.append("</maxArea>\n");
-            config.append("<filterByCircularity>1</filterByCircularity>\n");
-            config.append("<minCircularity>");
-            config.append(circularity[0]);
-            config.append("</minCircularity>\n");
-            config.append("<maxCircularity>");
-            config.append(circularity[1]);
-            config.append("</maxCircularity>\n");
-            config.append("<filterByInertia>1</filterByInertia>\n");
-            config.append("<minInertiaRatio>0.1</minInertiaRatio>\n");
-            config.append("<maxInertiaRatio>" + Integer.MAX_VALUE + "</maxInertiaRatio>\n");
-            config.append("<filterByConvexity>1</filterByConvexity>\n");
-            config.append("<minConvexity>0.95</minConvexity>\n");
-            config.append("<maxConvexity>" + Integer.MAX_VALUE + "</maxConvexity>\n");
-            config.append("</opencv_storage>\n");
-            FileWriter writer;
-            writer = new FileWriter(tempFile, false);
-            writer.write(config.toString());
-            writer.close();
+//            StringBuilder config = new StringBuilder();
+//
+//            config.append("<?xml version=\"1.0\"?>\n");
+//            config.append("<opencv_storage>\n");
+//            config.append("<thresholdStep>10.</thresholdStep>\n");
+//            config.append("<minThreshold>50.</minThreshold>\n");
+//            config.append("<maxThreshold>220.</maxThreshold>\n");
+//            config.append("<minRepeatability>2</minRepeatability>\n");
+//            config.append("<minDistBetweenBlobs>10.</minDistBetweenBlobs>\n");
+//            config.append("<filterByColor>1</filterByColor>\n");
+//            config.append("<blobColor>");
+//            config.append((darkBlobs ? 0 : 255));
+//            config.append("</blobColor>\n");
+//            config.append("<filterByArea>1</filterByArea>\n");
+//            config.append("<minArea>");
+//            config.append(minArea);
+//            config.append("</minArea>\n");
+//            config.append("<maxArea>");
+//            config.append(Integer.MAX_VALUE);
+//            config.append("</maxArea>\n");
+//            config.append("<filterByCircularity>1</filterByCircularity>\n");
+//            config.append("<minCircularity>");
+//            config.append(circularity[0]);
+//            config.append("</minCircularity>\n");
+//            config.append("<maxCircularity>");
+//            config.append(circularity[1]);
+//            config.append("</maxCircularity>\n");
+//            config.append("<filterByInertia>1</filterByInertia>\n");
+//            config.append("<minInertiaRatio>0.1</minInertiaRatio>\n");
+//            config.append("<maxInertiaRatio>" + Integer.MAX_VALUE + "</maxInertiaRatio>\n");
+//            config.append("<filterByConvexity>1</filterByConvexity>\n");
+//            config.append("<minConvexity>0.95</minConvexity>\n");
+//            config.append("<maxConvexity>" + Integer.MAX_VALUE + "</maxConvexity>\n");
+//            config.append("</opencv_storage>\n");
+//            FileWriter writer;
+//            writer = new FileWriter(tempFile, false);
+//            writer.write(config.toString());
+//            writer.close();
             blobDet.read(tempFile.getPath());
         } catch (IOException e) {
             e.printStackTrace();

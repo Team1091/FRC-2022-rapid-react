@@ -10,16 +10,18 @@ import frc.robot.Constants;
 public class DriveTrainSubsystem extends SubsystemBase {
 
     private final MecanumDrive mecanumDrive;
-    private CANSparkMax frontLeftMotor;
-    private CANSparkMax frontRightMotor;
-    private final RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
-    private final RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
+    private final CANSparkMax frontLeftMotor;
+    private final CANSparkMax frontRightMotor;
+    private final RelativeEncoder leftEncoder;
+    private final RelativeEncoder rightEncoder;
 
     public DriveTrainSubsystem() {
         this.frontLeftMotor = new CANSparkMax(Constants.DriveTrain.frontLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
         CANSparkMax backLeftMotor = new CANSparkMax(Constants.DriveTrain.backLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.frontRightMotor = new CANSparkMax(Constants.DriveTrain.frontRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
         CANSparkMax backRightMotor = new CANSparkMax(Constants.DriveTrain.backRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftEncoder = frontLeftMotor.getEncoder();
+        rightEncoder = frontRightMotor.getEncoder();
 
         mecanumDrive = new MecanumDrive(
                 this.frontLeftMotor,

@@ -13,7 +13,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public final class DriveTrain {
+    public static final class DriveTrain {
         public final static int frontLeftMotorChannel = 1;
         public final static int backLeftMotorChannel = 1;
         public final static int frontRightMotorChannel = 1;
@@ -21,20 +21,20 @@ public final class Constants {
     }
 
 
-    public final class ConveyorSubs {
+    public static final class ConveyorSubs {
         public final static int conveyorMotorChannel = 1;
     }
 
-    public final class Pneumatics {
+    public static final class Pneumatics {
         public final static int pneumaticIn = 1;
         public final static int pneumaticOut = 1;
     }
 
-    public final class XboxController {
+    public static final class XboxController {
         public final static int port = 1;
     }
 
-    public final class Vision {
+    public static final class Vision {
         public final static int cameraPort = 1;
         public final static int resizeImageWidth = 160;
         public final static int resizeImageHeight = 120;
