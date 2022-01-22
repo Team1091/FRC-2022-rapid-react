@@ -33,4 +33,8 @@ public final class Constants {
     public final class XboxController {
         public final static int port = 1;
     }
+
+    public final class Vision {
+        public final static int cameraPort = 1;
+    }
 }
