@@ -24,7 +24,7 @@ public class DistanceDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        driveTrainSubsystem.mecanumDrive(0.5, 0, 0);
+        driveTrainSubsystem.mecanumDrive(0, 0.5, 0);
     }
 
     @Override

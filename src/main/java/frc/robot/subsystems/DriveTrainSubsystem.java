@@ -33,12 +33,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     }
 
-    public void mecanumDrive(double xVelocity, double yVelocity, double rotationVelocity) {
-        //Change depending on driver's control preferences
-
-
-        mecanumDrive.driveCartesian(yVelocity, xVelocity, rotationVelocity);
+    public void mecanumDrive(double strafeVelocity, double forwardBackwardVelocity, double rotationVelocity) {
+        mecanumDrive.driveCartesian(forwardBackwardVelocity, strafeVelocity, rotationVelocity);
     }
+
     public double getLeftEncoder(){
         return leftEncoder.getPosition();
     }
