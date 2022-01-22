@@ -19,7 +19,6 @@ import frc.robot.commands.TimerCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ConveyerSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 
 import java.time.Duration;
 
@@ -31,7 +30,6 @@ import java.time.Duration;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
     private final ConveyerSubsystem conveyerSubsystem = new ConveyerSubsystem();
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem(new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pnemautics.pneumaticIn, Constants.Pnemautics.pneumaticOut));
