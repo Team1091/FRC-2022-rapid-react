@@ -1,20 +1,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoCamera;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.vision.BallPosition;
 
 import frc.robot.vision.GripPipeline;
-import org.opencv.core.KeyPoint;
 import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
