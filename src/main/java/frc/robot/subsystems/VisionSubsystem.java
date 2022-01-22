@@ -9,6 +9,7 @@ import frc.robot.Constants;
 import frc.robot.vision.GripPipeline;
 import org.opencv.core.Point;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,8 @@ public class VisionSubsystem extends SubsystemBase {
                         .collect(Collectors.toList());
                 //so basically the above converts the findBlobsOutput to a list with a bunch of
                 //points and then it is collected into a new list at the end
+            } else {
+                rawPositions = new ArrayList<>();
             }
         });
         visionThread.start();

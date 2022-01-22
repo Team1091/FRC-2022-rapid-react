@@ -13,7 +13,7 @@ public class TurnToBallCommand extends CommandBase {
     private final VisionSubsystem visionSubsystem;
     private final DriveTrainSubsystem driveTrainSubsystem;
     private Point lastSeenPosition = null;
-    private  int tolarence;
+    private  int tolerance;
 
     public TurnToBallCommand(
             VisionSubsystem visionSubsystem,
@@ -24,10 +24,10 @@ public class TurnToBallCommand extends CommandBase {
     public TurnToBallCommand(
             VisionSubsystem visionSubsystem,
             DriveTrainSubsystem driveTrainSubsystem,
-            int tolarence) {
+            int tolerance) {
         this.visionSubsystem = visionSubsystem;
         this.driveTrainSubsystem = driveTrainSubsystem;
-        this.tolarence = tolarence;
+        this.tolerance = tolerance;
         addRequirements(this.driveTrainSubsystem);
         addRequirements(this.visionSubsystem);
     }
@@ -63,7 +63,7 @@ public class TurnToBallCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return lastSeenPosition!=null&&Math.abs(lastSeenPosition.x-Constants.Vision.resizeImageWidth/2)<tolarence;
+        return lastSeenPosition!=null&&Math.abs(lastSeenPosition.x-Constants.Vision.resizeImageWidth/2)< tolerance;
 
     }
 }
