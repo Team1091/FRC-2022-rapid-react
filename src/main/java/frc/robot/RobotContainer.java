@@ -48,7 +48,9 @@ public class RobotContainer {
                 )
         );
 
-
+        ballConsumptionSubsystem.setDefaultCommand(
+                new RetractBallPickUpCommand(ballConsumptionSubsystem)
+        );
     }
 
     /**
