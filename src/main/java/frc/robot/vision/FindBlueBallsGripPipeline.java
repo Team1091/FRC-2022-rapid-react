@@ -9,7 +9,6 @@ import org.opencv.features2d.FastFeatureDetector;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -19,7 +18,7 @@ import java.io.IOException;
  *
  * @author GRIP
  */
-public class GripPipeline implements VisionPipeline {
+public class FindBlueBallsGripPipeline implements FindBallsGripPipeline {
 
     //Outputs
     private final Mat resizeImageOutput = new Mat();

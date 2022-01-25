@@ -5,15 +5,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.vision.BallLocation;
-import org.opencv.core.Point;
-
-import java.util.Comparator;
 
 public class StrafeToBallCommand extends CommandBase {
     private final VisionSubsystem visionSubsystem;
     private final DriveTrainSubsystem driveTrainSubsystem;
     private BallLocation lastSeenPosition = null;
     private  int tolerance;
+    private final double strafeSpeed = .4;
 
     public StrafeToBallCommand(
             VisionSubsystem visionSubsystem,
@@ -52,6 +50,9 @@ public class StrafeToBallCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        if(visionSubsystem.isImageNotUpdating()){
+            return true;
+        }
         var noBallInSight = lastSeenPosition==null;
         if (noBallInSight){
             return false;
@@ -63,10 +64,10 @@ public class StrafeToBallCommand extends CommandBase {
 
     private void slideToBall() {
         if (lastSeenPosition.getPoint().x> Constants.Vision.resizeImageWidth/2){
-            driveTrainSubsystem.mecanumDrive(.4,0,0);
+            driveTrainSubsystem.mecanumDrive(strafeSpeed,0,0);
 
         } else{
-            driveTrainSubsystem.mecanumDrive(-.4,0,0);
+            driveTrainSubsystem.mecanumDrive(-strafeSpeed,0,0);
         }
     }
 }
