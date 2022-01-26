@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ClimbSubsystem extends SubsystemBase {
 
@@ -13,8 +15,8 @@ public class ClimbSubsystem extends SubsystemBase {
     private int pushAndShove;
     //-1 = retract, 1 = out, 0 = nothing
 
-    public ClimbSubsystem(DoubleSolenoid solenoid) {
-        this.solenoid = solenoid;
+    public ClimbSubsystem() {
+        this.solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.pneumaticIn, Constants.Pneumatics.pneumaticOut);
     }
 
     public void setPushAndShove(int pushAndShove) {

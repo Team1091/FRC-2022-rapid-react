@@ -26,7 +26,7 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
     private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
-    private final ClimbSubsystem climbSubsystem = new ClimbSubsystem(new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.pneumaticIn, Constants.Pneumatics.pneumaticOut));
+    private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
     private final VisionSubsystem visionSubsystem = new VisionSubsystem(teamColor);
     private final BallConsumptionSubsystem ballConsumptionSubsystem = new BallConsumptionSubsystem();
     //module type may not be correct
