@@ -4,10 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -23,15 +20,17 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+    //driver station recieve what team color we are on
+    final VisionLookForBallColor teamColor = DriverStation.getAlliance()== DriverStation.Alliance.Blue ? VisionLookForBallColor.blue:VisionLookForBallColor.red;
+
     // The robot's subsystems and commands are defined here...
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
     private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem(new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.pneumaticIn, Constants.Pneumatics.pneumaticOut));
-    private final VisionSubsystem visionSubsystem = new VisionSubsystem(VisionLookForBallColor.blue);
+    private final VisionSubsystem visionSubsystem = new VisionSubsystem(teamColor);
     private final BallConsumptionSubsystem ballConsumptionSubsystem = new BallConsumptionSubsystem();
     //module type may not be correct
     private final XboxController controller = new XboxController(Constants.XboxController.port);
-
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
