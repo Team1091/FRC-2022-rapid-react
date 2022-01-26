@@ -31,15 +31,15 @@ public class BallLocation {
         return System.currentTimeMillis() - imageTakenOn;
     }
 
-    public boolean canPickUpBall(int tolerence){
+    public boolean canPickUpBall(int tolerance){
         double bottomDeadZone = Constants.Vision.resizeImageHeight*0.1;
 
-        int lowerXBound = Constants.Vision.resizeImageWidth / 2 - tolerence;
-        int upperXBound = Constants.Vision.resizeImageWidth / 2 + tolerence;
+        int lowerXBound = Constants.Vision.resizeImageWidth / 2 - tolerance;
+        int upperXBound = Constants.Vision.resizeImageWidth / 2 + tolerance;
 
         boolean isInXRange = this.point.x >= lowerXBound && this.point.x <= upperXBound;
 
-        boolean lowerYBound = this.point.y >= Constants.Vision.resizeImageHeight-bottomDeadZone-tolerence-tolerence;
+        boolean lowerYBound = this.point.y >= Constants.Vision.resizeImageHeight-bottomDeadZone-tolerance-tolerance;
         boolean upperYBound = this.point.y <= Constants.Vision.resizeImageHeight-bottomDeadZone;
 
         boolean isInYRange = lowerYBound && upperYBound;
