@@ -21,7 +21,7 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     //driver station recieve what team color we are on
-    final VisionLookForBallColor teamColor = DriverStation.getAlliance()== DriverStation.Alliance.Blue ? VisionLookForBallColor.blue:VisionLookForBallColor.red;
+    final VisionLookForBallColor teamColor = DriverStation.getAlliance()== DriverStation.Alliance.Blue ? VisionLookForBallColor.blue:VisionLookForBallColor.red;//egg
 
     // The robot's subsystems and commands are defined here...
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
