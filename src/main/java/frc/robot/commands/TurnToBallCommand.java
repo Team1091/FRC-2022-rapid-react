@@ -13,9 +13,7 @@ public class TurnToBallCommand extends CommandBase {
     private final int tolerance;
     private final double rotationSpeed = .4;
 
-    public TurnToBallCommand(
-            VisionSubsystem visionSubsystem,
-            DriveTrainSubsystem driveTrainSubsystem) {
+    public TurnToBallCommand(VisionSubsystem visionSubsystem, DriveTrainSubsystem driveTrainSubsystem) {
         this (visionSubsystem,driveTrainSubsystem,10);
     }
 

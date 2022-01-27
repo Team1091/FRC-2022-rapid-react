@@ -12,24 +12,24 @@ import frc.robot.Constants;
 public class ClimbSubsystem extends SubsystemBase {
 
     private final DoubleSolenoid solenoid;
-    private int pushAndShove;
+    private int upOrDown;
     //-1 = retract, 1 = out, 0 = nothing
 
     public ClimbSubsystem() {
         this.solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.pneumaticIn, Constants.Pneumatics.pneumaticOut);
     }
 
-    public void setPushAndShove(int pushAndShove) {
-        this.pushAndShove = pushAndShove;
+    public void upOrDown(int upOrDown) {
+        this.upOrDown = upOrDown;
     }
 
     @Override
     public void periodic() {
-        if (this.pushAndShove == 0) {
+        if (this.upOrDown == 0) {
             solenoid.set(DoubleSolenoid.Value.kOff);
-        } else if (this.pushAndShove == 1) {
+        } else if (this.upOrDown == 1) {
             solenoid.set(DoubleSolenoid.Value.kForward);
-        } else if (this.pushAndShove == -1) {
+        } else if (this.upOrDown == -1) {
             solenoid.set(DoubleSolenoid.Value.kReverse);
         }
     }
