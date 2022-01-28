@@ -16,7 +16,11 @@ public class ClimbSubsystem extends SubsystemBase {
     //-1 = retract, 1 = out, 0 = nothing
 
     public ClimbSubsystem() {
-        this.solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.pneumaticIn, Constants.Pneumatics.pneumaticOut);
+        this.solenoid = new DoubleSolenoid(
+                PneumaticsModuleType.CTREPCM,
+                Constants.Pneumatics.pneumaticIn,
+                Constants.Pneumatics.pneumaticOut
+        );
     }
 
     public void upOrDown(int upOrDown) {

@@ -19,8 +19,10 @@ public class BallConsumptionSubsystem extends SubsystemBase {
     private final MotorController inputMotor;
 
     public BallConsumptionSubsystem() {
-        this.ballIngestionSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.grabberIn, Constants.Pneumatics.grabberOut);
-        this.inputMotor = new CANSparkMax(Constants.Pneumatics.inputMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.ballIngestionSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+                Constants.Pneumatics.grabberIn, Constants.Pneumatics.grabberOut);
+        this.inputMotor = new CANSparkMax(Constants.Pneumatics.inputMotorChannel,
+                CANSparkMaxLowLevel.MotorType.kBrushless);
     }
 
     public void setPickUpMode(BallConsumptionState ballConsumptionState){
