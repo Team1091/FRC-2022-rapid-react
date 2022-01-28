@@ -15,29 +15,29 @@ import frc.robot.Constants;
 
 public class BallConsumptionSubsystem extends SubsystemBase {
 
-    private final DoubleSolenoid ballIngestionSolenoid;
-    private final MotorController inputMotor;
+//    private final DoubleSolenoid ballIngestionSolenoid;
+//    private final MotorController inputMotor;
 
     public BallConsumptionSubsystem() {
-        this.ballIngestionSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-                Constants.Pneumatics.grabberIn, Constants.Pneumatics.grabberOut);
-        this.inputMotor = new CANSparkMax(Constants.Pneumatics.inputMotorChannel,
-                CANSparkMaxLowLevel.MotorType.kBrushless);
+//        this.ballIngestionSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+//                Constants.Pneumatics.grabberIn, Constants.Pneumatics.grabberOut);
+//        this.inputMotor = new CANSparkMax(Constants.Pneumatics.inputMotorChannel,
+//                CANSparkMaxLowLevel.MotorType.kBrushless);
     }
 
     public void setPickUpMode(BallConsumptionState ballConsumptionState){
         switch (ballConsumptionState) {
             case undetermined:
-                ballIngestionSolenoid.set(DoubleSolenoid.Value.kReverse);
-                inputMotor.stopMotor();
+//                ballIngestionSolenoid.set(DoubleSolenoid.Value.kReverse);
+//                inputMotor.stopMotor();
                 break;
             case out:
-                ballIngestionSolenoid.set(DoubleSolenoid.Value.kForward);
-                inputMotor.set(Constants.Pneumatics.inputMotorSpeed);
+//                ballIngestionSolenoid.set(DoubleSolenoid.Value.kForward);
+//                inputMotor.set(Constants.Pneumatics.inputMotorSpeed);
                 break;
             case in:
-                ballIngestionSolenoid.set(DoubleSolenoid.Value.kForward);
-                inputMotor.set(-Constants.Pneumatics.inputMotorSpeed);
+//                ballIngestionSolenoid.set(DoubleSolenoid.Value.kForward);
+//                inputMotor.set(-Constants.Pneumatics.inputMotorSpeed);
                 break;
         }
     }
