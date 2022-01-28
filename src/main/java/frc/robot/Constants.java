@@ -15,9 +15,9 @@ package frc.robot;
 public final class Constants {
     public static final class DriveTrain {
         public final static int frontLeftMotorChannel = 1;
-        public final static int backLeftMotorChannel = 1;
-        public final static int frontRightMotorChannel = 1;
-        public final static int backRightMotorChannel = 1;
+        public final static int backLeftMotorChannel =2;
+        public final static int frontRightMotorChannel =3;
+        public final static int backRightMotorChannel = 4;
     }
 
 
