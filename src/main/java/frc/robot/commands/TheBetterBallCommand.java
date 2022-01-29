@@ -10,7 +10,7 @@ public class TheBetterBallCommand extends CommandBase {
     private final VisionSubsystem visionSubsystem;
     private final DriveTrainSubsystem driveTrainSubsystem;
     private final int middleOfCam = Constants.Vision.resizeImageWidth / 2;
-    private final int forwardToleance = Constants.Vision.resizeImageWidth / 10;
+    private final int forwardTolerance = Constants.Vision.resizeImageWidth / 10;
     private final int strafeTolerance = Constants.Vision.resizeImageWidth / 5;
     private int timerCounter = 0;
     private int ballSearchTimeOut = 420;
@@ -76,24 +76,24 @@ public class TheBetterBallCommand extends CommandBase {
     }
 
     public boolean canDriveForward(BallLocation ballLocation) {
-        boolean lowerForwardTolerance = ballLocation.getPoint().x >= middleOfCam - forwardToleance;
-        boolean upperForwardTolerance = ballLocation.getPoint().x <= middleOfCam + forwardToleance;
+        boolean lowerForwardTolerance = ballLocation.getPoint().x >= middleOfCam - forwardTolerance;
+        boolean upperForwardTolerance = ballLocation.getPoint().x <= middleOfCam + forwardTolerance;
         return lowerForwardTolerance && upperForwardTolerance;
     }
 
     public boolean canStrafe(BallLocation ballLocation) {
-        boolean lowerStrafeTolerance = ballLocation.getPoint().x >= middleOfCam - forwardToleance - strafeTolerance;
-        boolean upperStrafeTolerance = ballLocation.getPoint().x <= middleOfCam + forwardToleance + strafeTolerance;
+        boolean lowerStrafeTolerance = ballLocation.getPoint().x >= middleOfCam - forwardTolerance - strafeTolerance;
+        boolean upperStrafeTolerance = ballLocation.getPoint().x <= middleOfCam + forwardTolerance + strafeTolerance;
         return lowerStrafeTolerance && upperStrafeTolerance;
     }
 
     private void strafe(BallLocation ballLocation) {
-        boolean inLeftStrafeTolerance = ballLocation.getPoint().x < middleOfCam - forwardToleance && ballLocation.getPoint().x >= middleOfCam - strafeTolerance;
+        boolean inLeftStrafeTolerance = ballLocation.getPoint().x < middleOfCam - forwardTolerance && ballLocation.getPoint().x >= middleOfCam - strafeTolerance;
         if (inLeftStrafeTolerance) {
             driveTrainSubsystem.mecanumDrive(-0.5, 0, 0);
             return;
         }
-        boolean inRightStrafeTolerance = ballLocation.getPoint().x > middleOfCam + forwardToleance && ballLocation.getPoint().x <= middleOfCam + strafeTolerance;
+        boolean inRightStrafeTolerance = ballLocation.getPoint().x > middleOfCam + forwardTolerance && ballLocation.getPoint().x <= middleOfCam + strafeTolerance;
         if (inRightStrafeTolerance) {
             driveTrainSubsystem.mecanumDrive(0.5, 0, 0);
         }
@@ -106,13 +106,16 @@ public class TheBetterBallCommand extends CommandBase {
         }
         driveTrainSubsystem.mecanumDrive(0, 0, 0.5);
     }
+
     private void lookForBall() {
         driveTrainSubsystem.mecanumDrive(0, 0, 0.4);
         timerCounter = timerCounter + 1;
     }
+
     private void driveForward() {
         driveTrainSubsystem.mecanumDrive(0, 0.5, 0);
     }
+
     private void stopDriving() {
         driveTrainSubsystem.mecanumDrive(0, 0, 0);
     }
