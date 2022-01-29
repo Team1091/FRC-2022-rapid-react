@@ -32,7 +32,7 @@ public class VisionSubsystem extends SubsystemBase {
         frontcam = CameraServer.startAutomaticCapture(Constants.Vision.frontCameraPort);
         backcam = CameraServer.startAutomaticCapture(Constants.Vision.backCameraPort);
         sink = CameraServer.getServer();
-        sink.setSource(frontcam);
+        sink.setSource(backcam);
 
         frontcam.setResolution(Constants.Vision.resizeImageWidth, Constants.Vision.resizeImageHeight);
         FindBallsGripPipeline findBallsGripPipeline = getFindBallsGripPipeline(ballColor);

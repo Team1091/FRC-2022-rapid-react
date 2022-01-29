@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -28,7 +27,7 @@ public class RobotContainer {
     private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
     private final VisionSubsystem visionSubsystem = new VisionSubsystem(teamColor);
-    private final BallConsumptionSubsystem ballConsumptionSubsystem = new BallConsumptionSubsystem();
+    private final BallPickupSubsystem ballConsumptionSubsystem = new BallPickupSubsystem();
     //module type may not be correct
     private final XboxController controller = new XboxController(Constants.XboxController.port);
 
