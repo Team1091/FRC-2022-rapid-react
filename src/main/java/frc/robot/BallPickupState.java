@@ -1,5 +1,5 @@
 package frc.robot;
 
-public enum BallConsumptionState {
+public enum BallPickupState {
     undetermined, in, out
 }

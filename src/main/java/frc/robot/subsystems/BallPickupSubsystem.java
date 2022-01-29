@@ -4,29 +4,23 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.BallConsumptionState;
-import frc.robot.Constants;
+import frc.robot.BallPickupState;
 
-public class BallConsumptionSubsystem extends SubsystemBase {
+public class BallPickupSubsystem extends SubsystemBase {
 
 //    private final DoubleSolenoid ballIngestionSolenoid;
 //    private final MotorController inputMotor;
 
-    public BallConsumptionSubsystem() {
+    public BallPickupSubsystem() {
 //        this.ballIngestionSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
 //                Constants.Pneumatics.grabberIn, Constants.Pneumatics.grabberOut);
 //        this.inputMotor = new CANSparkMax(Constants.Pneumatics.inputMotorChannel,
 //                CANSparkMaxLowLevel.MotorType.kBrushless);
     }
 
-    public void setPickUpMode(BallConsumptionState ballConsumptionState){
-        switch (ballConsumptionState) {
+    public void setPickUpMode(BallPickupState ballPickupState){
+        switch (ballPickupState) {
             case undetermined:
 //                ballIngestionSolenoid.set(DoubleSolenoid.Value.kReverse);
 //                inputMotor.stopMotor();
