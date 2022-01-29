@@ -39,10 +39,10 @@ public final class Constants {
     }
 
     public static final class Vision {
-        public final static int frontCameraPort = 1;
+        public final static int frontCameraPort = 0;
         public final static int resizeImageWidth = 160;
         public final static int resizeImageHeight = 120;
-        public final static int backCameraPort = 0;
+        public final static int backCameraPort = 1;
 
     }
 }

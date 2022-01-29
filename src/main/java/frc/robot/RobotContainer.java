@@ -80,7 +80,7 @@ public class RobotContainer {
 
         //Changes cameras
         var yButton = new JoystickButton(controller, XboxController.Button.kY.value);
-        yButton.toggleWhenPressed(new ToggleCameraCommand(visionSubsystem));
+        yButton.whileActiveOnce(new ToggleCameraCommand(visionSubsystem));
 
     }
 
