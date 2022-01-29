@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class VisionSubsystem extends SubsystemBase {
-    private List<BallLocation> rawPositions;
+    private List<BallLocation> rawPositions = new ArrayList<>();
     private long lastImageTaken;
     private VideoSink sink;
     private final int checkIfUpdatingAfterMillis = 3000;
@@ -70,7 +70,8 @@ public class VisionSubsystem extends SubsystemBase {
 
     public BallLocation getClosestBall() {
         var ballLocations = getBallLocations();
-        return ballLocations.stream().max(Comparator.comparing(it -> it.getPoint().y)).get();
+        var closestBall = ballLocations.stream().max(Comparator.comparing(it -> it.getPoint().y));
+        return closestBall.orElse(null);
     }
 
     public boolean isImageNotUpdating() {
