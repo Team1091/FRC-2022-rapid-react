@@ -8,9 +8,9 @@ public class TimerCommand extends CommandBase {
     private final Timer timer;
     private final double duration;
 
-    public TimerCommand(double duration) {
+    public TimerCommand(double seconds) {
         this.timer = new Timer();
-        this.duration = duration;
+        this.duration = seconds;
     }
 
 

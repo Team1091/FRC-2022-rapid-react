@@ -97,16 +97,11 @@ public class RobotContainer {
                         new TimerCommand(5)
                 ),
                 new DistanceDriveCommand(driveTrainSubsystem, 3.0),
-                new TurnToBallCommand(visionSubsystem, driveTrainSubsystem),
-                new DriveUntilCanPickUpBallCommand(visionSubsystem, driveTrainSubsystem),
+                new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(
                     new PickUpBallCommand(ballConsumptionSubsystem),
                     new TimerCommand(5)
                 )
         );
     }
-
-//    public MecanumDriveCommand getMecanumDriveCommand() {
-//        return new MecanumDriveCommand(driveTrainSubsystem,);
-//    }
 }

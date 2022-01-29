@@ -6,16 +6,14 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.vision.BallLocation;
 
-public class TheBetterBallCommand extends CommandBase {
+public class AutoBallSeekingCommand extends CommandBase {
     private final VisionSubsystem visionSubsystem;
     private final DriveTrainSubsystem driveTrainSubsystem;
     private final int middleOfCam = Constants.Vision.resizeImageWidth / 2;
     private final int forwardTolerance = Constants.Vision.resizeImageWidth / 10;
     private final int strafeTolerance = Constants.Vision.resizeImageWidth / 5;
-    private int timerCounter = 0;
-    private int ballSearchTimeOut = 420;
 
-    public TheBetterBallCommand(
+    public AutoBallSeekingCommand(
             DriveTrainSubsystem driveTrainSubsystem,
             VisionSubsystem visionSubsystem
     ) {
@@ -39,8 +37,6 @@ public class TheBetterBallCommand extends CommandBase {
             return;
         }
 
-        resetBallSearchTimeOut();
-
         if (canDriveForward(ballLocation)) {
             driveForward();
             return;
@@ -54,10 +50,6 @@ public class TheBetterBallCommand extends CommandBase {
         turnToBall(ballLocation);
     }
 
-    private void resetBallSearchTimeOut() {
-        timerCounter = 0;
-    }
-
     @Override
     public void end(boolean interrupted) {
         stopDriving();
@@ -66,9 +58,6 @@ public class TheBetterBallCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         if (visionSubsystem.isImageNotUpdating()) {
-            return true;
-        }
-        if (timerCounter >= ballSearchTimeOut){
             return true;
         }
 
@@ -109,7 +98,6 @@ public class TheBetterBallCommand extends CommandBase {
 
     private void lookForBall() {
         driveTrainSubsystem.mecanumDrive(0, 0, 0.4);
-        timerCounter = timerCounter + 1;
     }
 
     private void driveForward() {
