@@ -10,25 +10,23 @@ import frc.robot.Constants;
 public class DriveTrainSubsystem extends SubsystemBase {
 
     private final MecanumDrive mecanumDrive;
-    private final CANSparkMax frontLeftMotor;
-    private final CANSparkMax frontRightMotor;
     private final RelativeEncoder leftEncoder;
     private final RelativeEncoder rightEncoder;
 
     public DriveTrainSubsystem() {
-        this.frontLeftMotor = new CANSparkMax(Constants.DriveTrain.frontLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
-        this.frontLeftMotor.setInverted(true);
-        CANSparkMax backLeftMotor = new CANSparkMax(Constants.DriveTrain.backLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
-        this.frontRightMotor = new CANSparkMax(Constants.DriveTrain.frontRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
-        this.frontRightMotor.setInverted(true);
-        CANSparkMax backRightMotor = new CANSparkMax(Constants.DriveTrain.backRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        var frontLeftMotor = new CANSparkMax(Constants.DriveTrain.frontLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        var backLeftMotor = new CANSparkMax(Constants.DriveTrain.backLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        var frontRightMotor = new CANSparkMax(Constants.DriveTrain.frontRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        var backRightMotor = new CANSparkMax(Constants.DriveTrain.backRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        frontLeftMotor.setInverted(true);
+        frontRightMotor.setInverted(true);
         leftEncoder = frontLeftMotor.getEncoder();
         rightEncoder = frontRightMotor.getEncoder();
 
         mecanumDrive = new MecanumDrive(
-                this.frontLeftMotor,
+                frontLeftMotor,
                 backLeftMotor,
-                this.frontRightMotor,
+                frontRightMotor,
                 backRightMotor);
     }
 
