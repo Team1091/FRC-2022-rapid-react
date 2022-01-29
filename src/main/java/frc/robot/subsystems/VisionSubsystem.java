@@ -24,21 +24,25 @@ public class VisionSubsystem extends SubsystemBase {
     private long lastImageTaken;
     private VideoSink sink;
     private final int checkIfUpdatingAfterMillis = 3000;
+    private final VideoCamera frontcam;
+    private final VideoCamera backcam;
+    private boolean isForward = true;
 
     public VisionSubsystem(VisionLookForBallColor ballColor) {
-        VideoCamera camera = CameraServer.startAutomaticCapture(Constants.Vision.cameraPort);
+        frontcam = CameraServer.startAutomaticCapture(Constants.Vision.frontCameraPort);
+        backcam = CameraServer.startAutomaticCapture(Constants.Vision.backCameraPort);
         sink = CameraServer.getServer();
-        sink.setSource(camera);
+        sink.setSource(frontcam);
 
-        camera.setResolution(Constants.Vision.resizeImageWidth, Constants.Vision.resizeImageHeight);
+        frontcam.setResolution(Constants.Vision.resizeImageWidth, Constants.Vision.resizeImageHeight);
         FindBallsGripPipeline findBallsGripPipeline = getFindBallsGripPipeline(ballColor);
 
-        VisionThread visionThread = new VisionThread(camera, findBallsGripPipeline, pipeline -> {
+        VisionThread visionThread = new VisionThread(frontcam, findBallsGripPipeline, pipeline -> {
             if (!pipeline.findBlobsOutput().empty()) {
                 rawPositions = pipeline.findBlobsOutput().toList().stream()
                         .map(it -> new BallLocation(it.pt))
                         .collect(Collectors.toList());
-                        lastImageTaken = System.currentTimeMillis();
+                lastImageTaken = System.currentTimeMillis();
                 //so basically the above converts the findBlobsOutput to a list with a bunch of
                 //points and then it is collected into a new list at the end
             } else {
@@ -53,18 +57,29 @@ public class VisionSubsystem extends SubsystemBase {
         //this just returns the collected list of points from the vision thread
     }
 
-    public BallLocation getClosestBall(){
-        var ballLocations = getBallLocations();
-        return ballLocations.stream().max(Comparator.comparing(it->it.getPoint().y)).get();
+    public boolean getForward() {
+        return isForward;
     }
 
-    public boolean isImageNotUpdating(){
-        return System.currentTimeMillis()-lastImageTaken> checkIfUpdatingAfterMillis;
+    public void setForward(boolean isForward) {
+        this.isForward = isForward;
+        if (isForward) {
+            sink.setSource(frontcam);
+        } else sink.setSource(backcam);
+    }
+
+    public BallLocation getClosestBall() {
+        var ballLocations = getBallLocations();
+        return ballLocations.stream().max(Comparator.comparing(it -> it.getPoint().y)).get();
+    }
+
+    public boolean isImageNotUpdating() {
+        return System.currentTimeMillis() - lastImageTaken > checkIfUpdatingAfterMillis;
     }
 
     private FindBallsGripPipeline getFindBallsGripPipeline(VisionLookForBallColor ballColor) {
         FindBallsGripPipeline findBallsGripPipeline = null;
-        if(ballColor == VisionLookForBallColor.blue){
+        if (ballColor == VisionLookForBallColor.blue) {
             findBallsGripPipeline = new FindBlueBallsGripPipeline();
         } else {
             findBallsGripPipeline = new FindRedBallsGripPipeline();
