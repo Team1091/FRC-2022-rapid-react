@@ -63,10 +63,16 @@ public class AutoBallSeekingCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         if (visionSubsystem.isImageNotUpdating()) {
+            SmartDashboard.putNumber("name", System.currentTimeMillis());
             return true;
         }
 
-        return visionSubsystem.getClosestBall().canPickUpBall(Constants.Vision.resizeImageHeight / 20);
+        BallLocation closestBall = visionSubsystem.getClosestBall();
+        if (closestBall == null){
+            return false;
+        }
+
+        return closestBall.canPickUpBall(Constants.Vision.resizeImageHeight / 20);
     }
 
     public boolean canDriveForward(BallLocation ballLocation) {

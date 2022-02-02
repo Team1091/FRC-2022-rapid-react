@@ -5,6 +5,7 @@ import edu.wpi.first.cscore.VideoCamera;
 import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -37,11 +38,15 @@ public class VisionSubsystem extends SubsystemBase {
         frontcam.setResolution(Constants.Vision.resizeImageWidth, Constants.Vision.resizeImageHeight);
         FindBallsGripPipeline findBallsGripPipeline = getFindBallsGripPipeline(ballColor);
 
+        lastImageTaken = System.currentTimeMillis();
+
         VisionThread visionThread = new VisionThread(frontcam, findBallsGripPipeline, pipeline -> {
+            SmartDashboard.putNumber("testVisionThread", System.currentTimeMillis());
             if (!pipeline.findBlobsOutput().empty()) {
                 rawPositions = pipeline.findBlobsOutput().toList().stream()
                         .map(it -> new BallLocation(it.pt))
                         .collect(Collectors.toList());
+
                 lastImageTaken = System.currentTimeMillis();
                 //so basically the above converts the findBlobsOutput to a list with a bunch of
                 //points and then it is collected into a new list at the end
@@ -75,6 +80,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public boolean isImageNotUpdating() {
+        SmartDashboard.putNumber("lastImageTaken", lastImageTaken);
         return System.currentTimeMillis() - lastImageTaken > checkIfUpdatingAfterMillis;
     }
 

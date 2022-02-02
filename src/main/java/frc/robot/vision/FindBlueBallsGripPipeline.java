@@ -2,14 +2,16 @@ package frc.robot.vision;
 
 //import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
-import edu.wpi.first.vision.VisionPipeline;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import org.opencv.core.*;
 import org.opencv.features2d.FastFeatureDetector;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * GripPipeline class.
@@ -36,39 +38,45 @@ public class FindBlueBallsGripPipeline implements FindBallsGripPipeline {
      */
     @Override
     public void process(Mat source0) {
-        // Step Resize_Image0:
-        double resizeImageWidth = Constants.Vision.resizeImageWidth;
-        double resizeImageHeight = Constants.Vision.resizeImageHeight;
-        int resizeImageInterpolation = Imgproc.INTER_CUBIC;
-        resizeImage(source0, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
+        try {
+            // Step Resize_Image0:
+            double resizeImageWidth = Constants.Vision.resizeImageWidth;
+            double resizeImageHeight = Constants.Vision.resizeImageHeight;
+            int resizeImageInterpolation = Imgproc.INTER_LINEAR;
+            resizeImage(source0, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
-        // Step HSV_Threshold0:
-        Mat hsvThresholdInput = resizeImageOutput;
-        double[] hsvThresholdHue = {67.98561151079139, 125.13080444735127};
-        double[] hsvThresholdSaturation = {98.60611510791368, 244.26767676767676};
-        double[] hsvThresholdValue = {119.24460431654674, 255.0};
-        hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
+            // Step HSV_Threshold0:
+            Mat hsvThresholdInput = resizeImageOutput;
+            double[] hsvThresholdHue = {67.98561151079139, 125.13080444735127};
+            double[] hsvThresholdSaturation = {98.60611510791368, 244.26767676767676};
+            double[] hsvThresholdValue = {119.24460431654674, 255.0};
+            hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
-        // Step CV_erode0:
-        Mat cvErodeSrc = hsvThresholdOutput;
-        Mat cvErodeKernel = new Mat();
-        Point cvErodeAnchor = new Point(-1, -1);
-        double cvErodeIterations = 1.0;
-        int cvErodeBordertype = Core.BORDER_CONSTANT;
-        Scalar cvErodeBordervalue = new Scalar(-1);
-        cvErode(cvErodeSrc, cvErodeKernel, cvErodeAnchor, cvErodeIterations, cvErodeBordertype, cvErodeBordervalue, cvErodeOutput);
+            // Step CV_erode0:
+            Mat cvErodeSrc = hsvThresholdOutput;
+            Mat cvErodeKernel = new Mat();
+            Point cvErodeAnchor = new Point(-1, -1);
+            double cvErodeIterations = 1.0;
+            int cvErodeBordertype = Core.BORDER_CONSTANT;
+            Scalar cvErodeBordervalue = new Scalar(-1);
+            cvErode(cvErodeSrc, cvErodeKernel, cvErodeAnchor, cvErodeIterations, cvErodeBordertype, cvErodeBordervalue, cvErodeOutput);
 
-        // Step Mask0:
-        Mat maskInput = resizeImageOutput;
-        Mat maskMask = cvErodeOutput;
-        mask(maskInput, maskMask, maskOutput);
+            // Step Mask0:
+            Mat maskInput = resizeImageOutput;
+            Mat maskMask = cvErodeOutput;
+            mask(maskInput, maskMask, maskOutput);
 
-        // Step Find_Blobs0:
-        Mat findBlobsInput = maskOutput;
-        double findBlobsMinArea = 11.0;
-        double[] findBlobsCircularity = {0.0, 1.0};
-        boolean findBlobsDarkBlobs = false;
-        findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);
+            // Step Find_Blobs0:
+            Mat findBlobsInput = maskOutput;
+            double findBlobsMinArea = 11.0;
+            double[] findBlobsCircularity = {0.0, 1.0};
+            boolean findBlobsDarkBlobs = false;
+            findBlobs(findBlobsInput, findBlobsMinArea, findBlobsCircularity, findBlobsDarkBlobs, findBlobsOutput);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            SmartDashboard.putString("error", Arrays.stream(e.getStackTrace()).findFirst().toString());
+        }
 
     }
 
@@ -195,50 +203,49 @@ public class FindBlueBallsGripPipeline implements FindBallsGripPipeline {
      * @param darkBlobs   The boolean that determines if light or dark blobs are found.
      * @param blobList    The output where the MatOfKeyPoint is stored.
      */
-    private void findBlobs(Mat input, double minArea, double[] circularity,
-                           Boolean darkBlobs, MatOfKeyPoint blobList) {
+    private void findBlobs(Mat input, double minArea, double[] circularity, Boolean darkBlobs, MatOfKeyPoint blobList) {
         FastFeatureDetector blobDet = FastFeatureDetector.create(FastFeatureDetector.FAST_N);
         try {
             File tempFile = File.createTempFile("config", ".xml");
 
-//            StringBuilder config = new StringBuilder();
-//
-//            config.append("<?xml version=\"1.0\"?>\n");
-//            config.append("<opencv_storage>\n");
-//            config.append("<thresholdStep>10.</thresholdStep>\n");
-//            config.append("<minThreshold>50.</minThreshold>\n");
-//            config.append("<maxThreshold>220.</maxThreshold>\n");
-//            config.append("<minRepeatability>2</minRepeatability>\n");
-//            config.append("<minDistBetweenBlobs>10.</minDistBetweenBlobs>\n");
-//            config.append("<filterByColor>1</filterByColor>\n");
-//            config.append("<blobColor>");
-//            config.append((darkBlobs ? 0 : 255));
-//            config.append("</blobColor>\n");
-//            config.append("<filterByArea>1</filterByArea>\n");
-//            config.append("<minArea>");
-//            config.append(minArea);
-//            config.append("</minArea>\n");
-//            config.append("<maxArea>");
-//            config.append(Integer.MAX_VALUE);
-//            config.append("</maxArea>\n");
-//            config.append("<filterByCircularity>1</filterByCircularity>\n");
-//            config.append("<minCircularity>");
-//            config.append(circularity[0]);
-//            config.append("</minCircularity>\n");
-//            config.append("<maxCircularity>");
-//            config.append(circularity[1]);
-//            config.append("</maxCircularity>\n");
-//            config.append("<filterByInertia>1</filterByInertia>\n");
-//            config.append("<minInertiaRatio>0.1</minInertiaRatio>\n");
-//            config.append("<maxInertiaRatio>" + Integer.MAX_VALUE + "</maxInertiaRatio>\n");
-//            config.append("<filterByConvexity>1</filterByConvexity>\n");
-//            config.append("<minConvexity>0.95</minConvexity>\n");
-//            config.append("<maxConvexity>" + Integer.MAX_VALUE + "</maxConvexity>\n");
-//            config.append("</opencv_storage>\n");
-//            FileWriter writer;
-//            writer = new FileWriter(tempFile, false);
-//            writer.write(config.toString());
-//            writer.close();
+            StringBuilder config = new StringBuilder();
+
+            config.append("<?xml version=\"1.0\"?>\n");
+            config.append("<opencv_storage>\n");
+            config.append("<thresholdStep>10.</thresholdStep>\n");
+            config.append("<minThreshold>50.</minThreshold>\n");
+            config.append("<maxThreshold>220.</maxThreshold>\n");
+            config.append("<minRepeatability>2</minRepeatability>\n");
+            config.append("<minDistBetweenBlobs>10.</minDistBetweenBlobs>\n");
+            config.append("<filterByColor>1</filterByColor>\n");
+            config.append("<blobColor>");
+            config.append((darkBlobs ? 0 : 255));
+            config.append("</blobColor>\n");
+            config.append("<filterByArea>1</filterByArea>\n");
+            config.append("<minArea>");
+            config.append(minArea);
+            config.append("</minArea>\n");
+            config.append("<maxArea>");
+            config.append(Integer.MAX_VALUE);
+            config.append("</maxArea>\n");
+            config.append("<filterByCircularity>1</filterByCircularity>\n");
+            config.append("<minCircularity>");
+            config.append(circularity[0]);
+            config.append("</minCircularity>\n");
+            config.append("<maxCircularity>");
+            config.append(circularity[1]);
+            config.append("</maxCircularity>\n");
+            config.append("<filterByInertia>1</filterByInertia>\n");
+            config.append("<minInertiaRatio>0.1</minInertiaRatio>\n");
+            config.append("<maxInertiaRatio>" + Integer.MAX_VALUE + "</maxInertiaRatio>\n");
+            config.append("<filterByConvexity>1</filterByConvexity>\n");
+            config.append("<minConvexity>0.95</minConvexity>\n");
+            config.append("<maxConvexity>" + Integer.MAX_VALUE + "</maxConvexity>\n");
+            config.append("</opencv_storage>\n");
+            FileWriter writer;
+            writer = new FileWriter(tempFile, false);
+            writer.write(config.toString());
+            writer.close();
             blobDet.read(tempFile.getPath());
         } catch (IOException e) {
             e.printStackTrace();
