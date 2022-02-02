@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoCamera;
 import edu.wpi.first.cscore.VideoSink;
-import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,8 +11,7 @@ import frc.robot.Constants;
 import frc.robot.VisionLookForBallColor;
 import frc.robot.vision.BallLocation;
 import frc.robot.vision.FindBallsGripPipeline;
-import frc.robot.vision.FindBlueBallsGripPipeline;
-import frc.robot.vision.FindRedBallsGripPipeline;
+import frc.robot.vision.FindColorBallsGripPipeline;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -87,9 +85,17 @@ public class VisionSubsystem extends SubsystemBase {
     private FindBallsGripPipeline getFindBallsGripPipeline(VisionLookForBallColor ballColor) {
         FindBallsGripPipeline findBallsGripPipeline = null;
         if (ballColor == VisionLookForBallColor.blue) {
-            findBallsGripPipeline = new FindBlueBallsGripPipeline();
+            double[] hsvThresholdHue = {67.98561151079139, 125.13080444735127};
+            double[] hsvThresholdSaturation = {98.60611510791368, 244.26767676767676};
+            double[] hsvThresholdValue = {119.24460431654674, 255.0};
+
+            findBallsGripPipeline = new FindColorBallsGripPipeline(hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue);
         } else {
-            findBallsGripPipeline = new FindRedBallsGripPipeline();
+            double[] hsvThresholdHue = {67.98561151079139, 125.13080444735127};
+            double[] hsvThresholdSaturation = {98.60611510791368, 244.26767676767676};
+            double[] hsvThresholdValue = {119.24460431654674, 255.0};
+
+            findBallsGripPipeline = new FindColorBallsGripPipeline(hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue);
         }
         return findBallsGripPipeline;
     }
