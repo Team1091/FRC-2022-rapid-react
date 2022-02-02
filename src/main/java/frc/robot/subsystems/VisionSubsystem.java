@@ -85,9 +85,9 @@ public class VisionSubsystem extends SubsystemBase {
     private FindBallsGripPipeline getFindBallsGripPipeline(VisionLookForBallColor ballColor) {
         FindBallsGripPipeline findBallsGripPipeline = null;
         if (ballColor == VisionLookForBallColor.blue) {
-            double[] hsvThresholdHue = {67.98561151079139, 125.13080444735127};
-            double[] hsvThresholdSaturation = {98.60611510791368, 244.26767676767676};
-            double[] hsvThresholdValue = {119.24460431654674, 255.0};
+            double[] hsvThresholdHue = {92, 141};
+            double[] hsvThresholdSaturation = {80, 255};
+            double[] hsvThresholdValue = {122, 255};
 
             findBallsGripPipeline = new FindColorBallsGripPipeline(hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue);
         } else {
