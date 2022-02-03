@@ -34,7 +34,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        mecanumDrive.driveCartesian(forwardBackwardVelocity, strafeVelocity, rotationVelocity);
+        mecanumDrive.driveCartesian(strafeVelocity, forwardBackwardVelocity, rotationVelocity);
     }
 
     public void mecanumDrive(double strafeVelocity, double forwardBackwardVelocity, double rotationVelocity) {
