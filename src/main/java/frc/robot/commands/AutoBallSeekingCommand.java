@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -31,6 +32,10 @@ public class AutoBallSeekingCommand extends CommandBase {
     public void execute() {
         var ballLocation = visionSubsystem.getClosestBall();
 
+        if (ballLocation != null){
+            SmartDashboard.putString("ballLocation", ballLocation.toString());
+        }
+
         boolean cantSeeBall = ballLocation == null;
         if (cantSeeBall) {
             lookForBall();
@@ -58,10 +63,16 @@ public class AutoBallSeekingCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         if (visionSubsystem.isImageNotUpdating()) {
+            SmartDashboard.putNumber("name", System.currentTimeMillis());
             return true;
         }
 
-        return visionSubsystem.getClosestBall().canPickUpBall(Constants.Vision.resizeImageHeight / 20);
+        BallLocation closestBall = visionSubsystem.getClosestBall();
+        if (closestBall == null){
+            return false;
+        }
+
+        return closestBall.canPickUpBall(Constants.Vision.resizeImageHeight / 20);
     }
 
     public boolean canDriveForward(BallLocation ballLocation) {

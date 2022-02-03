@@ -3,16 +3,15 @@ package frc.robot.subsystems;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoCamera;
 import edu.wpi.first.cscore.VideoSink;
-import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import frc.robot.VisionLookForBallColor;
 import frc.robot.vision.BallLocation;
 import frc.robot.vision.FindBallsGripPipeline;
-import frc.robot.vision.FindBlueBallsGripPipeline;
-import frc.robot.vision.FindRedBallsGripPipeline;
+import frc.robot.vision.FindColorBallsGripPipeline;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class VisionSubsystem extends SubsystemBase {
-    private List<BallLocation> rawPositions;
+    private List<BallLocation> rawPositions = new ArrayList<>();
     private long lastImageTaken;
     private VideoSink sink;
     private final int checkIfUpdatingAfterMillis = 3000;
@@ -37,11 +36,15 @@ public class VisionSubsystem extends SubsystemBase {
         frontcam.setResolution(Constants.Vision.resizeImageWidth, Constants.Vision.resizeImageHeight);
         FindBallsGripPipeline findBallsGripPipeline = getFindBallsGripPipeline(ballColor);
 
+        lastImageTaken = System.currentTimeMillis();
+
         VisionThread visionThread = new VisionThread(frontcam, findBallsGripPipeline, pipeline -> {
+            SmartDashboard.putNumber("testVisionThread", System.currentTimeMillis());
             if (!pipeline.findBlobsOutput().empty()) {
                 rawPositions = pipeline.findBlobsOutput().toList().stream()
                         .map(it -> new BallLocation(it.pt))
                         .collect(Collectors.toList());
+
                 lastImageTaken = System.currentTimeMillis();
                 //so basically the above converts the findBlobsOutput to a list with a bunch of
                 //points and then it is collected into a new list at the end
@@ -70,19 +73,29 @@ public class VisionSubsystem extends SubsystemBase {
 
     public BallLocation getClosestBall() {
         var ballLocations = getBallLocations();
-        return ballLocations.stream().max(Comparator.comparing(it -> it.getPoint().y)).get();
+        var closestBall = ballLocations.stream().max(Comparator.comparing(it -> it.getPoint().y));
+        return closestBall.orElse(null);
     }
 
     public boolean isImageNotUpdating() {
+        SmartDashboard.putNumber("lastImageTaken", lastImageTaken);
         return System.currentTimeMillis() - lastImageTaken > checkIfUpdatingAfterMillis;
     }
 
     private FindBallsGripPipeline getFindBallsGripPipeline(VisionLookForBallColor ballColor) {
         FindBallsGripPipeline findBallsGripPipeline = null;
         if (ballColor == VisionLookForBallColor.blue) {
-            findBallsGripPipeline = new FindBlueBallsGripPipeline();
+            double[] hsvThresholdHue = {92, 141};
+            double[] hsvThresholdSaturation = {80, 255};
+            double[] hsvThresholdValue = {122, 255};
+
+            findBallsGripPipeline = new FindColorBallsGripPipeline(hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue);
         } else {
-            findBallsGripPipeline = new FindRedBallsGripPipeline();
+            double[] hsvThresholdHue = {67.98561151079139, 125.13080444735127};
+            double[] hsvThresholdSaturation = {98.60611510791368, 244.26767676767676};
+            double[] hsvThresholdValue = {119.24460431654674, 255.0};
+
+            findBallsGripPipeline = new FindColorBallsGripPipeline(hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue);
         }
         return findBallsGripPipeline;
     }

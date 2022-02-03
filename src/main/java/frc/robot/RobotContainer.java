@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -26,7 +27,7 @@ public class RobotContainer {
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
     private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
-    private final VisionSubsystem visionSubsystem = new VisionSubsystem(teamColor);
+    private final VisionSubsystem visionSubsystem = new VisionSubsystem(VisionLookForBallColor.blue);
     private final BallPickupSubsystem ballConsumptionSubsystem = new BallPickupSubsystem();
     //module type may not be correct
     private final XboxController controller = new XboxController(Constants.XboxController.port);
@@ -40,9 +41,21 @@ public class RobotContainer {
         driveTrainSubsystem.setDefaultCommand(
                 new MecanumDriveCommand(
                         driveTrainSubsystem,
-                        controller::getLeftY,
-                        controller::getLeftX,
-                        controller::getRightX
+                        () -> {
+                            var input = controller.getLeftY();
+                            SmartDashboard.putNumber("forwards", input);
+                            return input;
+                        },
+                        () -> {
+                            var input = controller.getLeftX();
+                            SmartDashboard.putNumber("strafing", input);
+                            return input;
+                        },
+                        () -> {
+                            var input = controller.getRightX();
+                            SmartDashboard.putNumber("rotation", input);
+                            return input;
+                        }
                 )
         );
 
@@ -92,10 +105,11 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return new SequentialCommandGroup(
-                new ParallelRaceGroup(
-                        new ConveyorCommand(conveyorSubsystem, 1),
-                        new TimerCommand(5)
-                ),
+                // TODO : add this back in
+//                new ParallelRaceGroup(
+//                        new ConveyorCommand(conveyorSubsystem, 1),
+//                        new TimerCommand(5)
+//                ),
                 new DistanceDriveCommand(driveTrainSubsystem, 3.0),
                 new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(

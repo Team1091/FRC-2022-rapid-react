@@ -27,6 +27,11 @@ public class BallLocation {
         return pointEqual && timestampMatch;
     }
 
+    @Override
+    public String toString(){
+        return point.toString();
+    }
+
     public long getAgeInMilliseconds(){
         return System.currentTimeMillis() - imageTakenOn;
     }

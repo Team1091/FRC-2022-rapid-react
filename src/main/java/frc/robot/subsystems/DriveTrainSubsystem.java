@@ -12,6 +12,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     private final MecanumDrive mecanumDrive;
     private final RelativeEncoder leftEncoder;
     private final RelativeEncoder rightEncoder;
+    double forwardBackwardVelocity, strafeVelocity, rotationVelocity = 0;
 
     public DriveTrainSubsystem() {
         var frontLeftMotor = new CANSparkMax(Constants.DriveTrain.frontLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -30,19 +31,23 @@ public class DriveTrainSubsystem extends SubsystemBase {
                 backRightMotor);
     }
 
+
     @Override
     public void periodic() {
+        mecanumDrive.driveCartesian(forwardBackwardVelocity, strafeVelocity, rotationVelocity);
     }
 
     public void mecanumDrive(double strafeVelocity, double forwardBackwardVelocity, double rotationVelocity) {
-        mecanumDrive.driveCartesian(strafeVelocity, forwardBackwardVelocity, rotationVelocity);
+        this.strafeVelocity = strafeVelocity;
+        this.forwardBackwardVelocity = forwardBackwardVelocity;
+        this.rotationVelocity = rotationVelocity;
     }
 
-    public double getLeftEncoder(){
+    public double getLeftEncoder() {
         return leftEncoder.getPosition();
     }
 
-    public double getRightEncoder(){
+    public double getRightEncoder() {
         return rightEncoder.getPosition();
     }
 }
