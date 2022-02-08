@@ -42,13 +42,13 @@ public class RobotContainer {
                 new MecanumDriveCommand(
                         driveTrainSubsystem,
                         () -> {
-                            var input = controller.getLeftY();
-                            SmartDashboard.putNumber("forwards", input);
+                            var input = controller.getLeftX();
+                            SmartDashboard.putNumber("strafing", input);
                             return input;
                         },
                         () -> {
-                            var input = controller.getLeftX();
-                            SmartDashboard.putNumber("strafing", input);
+                            var input = controller.getLeftY();
+                            SmartDashboard.putNumber("forwards", input);
                             return input;
                         },
                         () -> {
