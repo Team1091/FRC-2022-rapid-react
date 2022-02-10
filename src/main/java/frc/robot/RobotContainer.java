@@ -81,11 +81,11 @@ public class RobotContainer {
 
         //forward conveyor
         var rightBumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
-        rightBumper.whenActive(new ConveyorCommand(conveyorSubsystem, 1));
+        rightBumper.whileHeld(new ConveyorCommand(conveyorSubsystem, 1));
 
         //reverse conveyor
         var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
-        leftBumper.whenActive(new ConveyorCommand(conveyorSubsystem, -1));
+        leftBumper.whileHeld(new ConveyorCommand(conveyorSubsystem, -1));
 
         //ball consumption system down and spin rotors in
         var bButton = new JoystickButton(controller, XboxController.Button.kB.value);

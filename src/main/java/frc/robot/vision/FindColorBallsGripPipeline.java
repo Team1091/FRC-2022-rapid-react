@@ -244,7 +244,7 @@ public class FindColorBallsGripPipeline implements FindBallsGripPipeline {
             writer.close();
             blobDet.read(tempFile.getPath());
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         blobDet.detect(input, blobList);

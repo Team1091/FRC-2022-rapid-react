@@ -38,21 +38,21 @@ public class VisionSubsystem extends SubsystemBase {
 
         lastImageTaken = System.currentTimeMillis();
 
-        VisionThread visionThread = new VisionThread(frontcam, findBallsGripPipeline, pipeline -> {
-            SmartDashboard.putNumber("testVisionThread", System.currentTimeMillis());
-            if (!pipeline.findBlobsOutput().empty()) {
-                rawPositions = pipeline.findBlobsOutput().toList().stream()
-                        .map(it -> new BallLocation(it.pt))
-                        .collect(Collectors.toList());
-
-                lastImageTaken = System.currentTimeMillis();
-                //so basically the above converts the findBlobsOutput to a list with a bunch of
-                //points and then it is collected into a new list at the end
-            } else {
-                rawPositions = new ArrayList<>();
-            }
-        });
-        visionThread.start();
+//        VisionThread visionThread = new VisionThread(frontcam, findBallsGripPipeline, pipeline -> {
+//            SmartDashboard.putNumber("testVisionThread", System.currentTimeMillis());
+//            if (!pipeline.findBlobsOutput().empty()) {
+//                rawPositions = pipeline.findBlobsOutput().toList().stream()
+//                        .map(it -> new BallLocation(it.pt))
+//                        .collect(Collectors.toList());
+//
+//                lastImageTaken = System.currentTimeMillis();
+//                //so basically the above converts the findBlobsOutput to a list with a bunch of
+//                //points and then it is collected into a new list at the end
+//            } else {
+//                rawPositions = new ArrayList<>();
+//            }
+//        });
+//        visionThread.start();
     }
 
     public List<BallLocation> getBallLocations() {

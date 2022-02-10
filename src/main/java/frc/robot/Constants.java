@@ -14,15 +14,15 @@ package frc.robot;
  */
 public final class Constants {
     public static final class DriveTrain {
-        public final static int frontLeftMotorChannel = 1;
-        public final static int backLeftMotorChannel =2;
-        public final static int frontRightMotorChannel =3;
+        public final static int backLeftMotorChannel = 1;
+        public final static int frontLeftMotorChannel = 2;
+        public final static int frontRightMotorChannel = 3;
         public final static int backRightMotorChannel = 4;
     }
 
 
     public static final class ConveyorSubs {
-        public final static int conveyorMotorChannel = 1;
+        public final static int conveyorMotorChannel = 6;
     }
 
     public static final class Pneumatics {
