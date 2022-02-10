@@ -19,8 +19,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
         var backLeftMotor = new CANSparkMax(Constants.DriveTrain.backLeftMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
         var frontRightMotor = new CANSparkMax(Constants.DriveTrain.frontRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
         var backRightMotor = new CANSparkMax(Constants.DriveTrain.backRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
-        frontLeftMotor.setInverted(true);
-        frontRightMotor.setInverted(true);
+        backRightMotor.setInverted(true);
+        backLeftMotor.setInverted(true);
         leftEncoder = frontLeftMotor.getEncoder();
         rightEncoder = frontRightMotor.getEncoder();
 
@@ -44,10 +44,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public double getLeftEncoder() {
-        return leftEncoder.getPosition();
+        return 0;
     }
 
     public double getRightEncoder() {
-        return rightEncoder.getPosition();
+        return 0;
     }
 }
