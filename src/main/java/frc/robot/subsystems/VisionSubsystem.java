@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoCamera;
 import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,6 +15,7 @@ import frc.robot.VisionLookForBallColor;
 import frc.robot.vision.BallLocation;
 import frc.robot.vision.FindBallsGripPipeline;
 import frc.robot.vision.FindColorBallsGripPipeline;
+import org.opencv.core.Point;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,6 +30,10 @@ public class VisionSubsystem extends SubsystemBase {
     private final VideoCamera frontcam;
     private final VideoCamera backcam;
     private boolean isForward = true;
+    NetworkTableEntry seenEntry;
+    NetworkTableEntry centerXEntry;
+    NetworkTableEntry centerYEntry;
+    NetworkTableEntry distanceEntry;
 
     public VisionSubsystem(VisionLookForBallColor ballColor) {
         frontcam = CameraServer.startAutomaticCapture(Constants.Vision.frontCameraPort);
@@ -34,7 +42,7 @@ public class VisionSubsystem extends SubsystemBase {
         sink.setSource(backcam);
 
         frontcam.setResolution(Constants.Vision.resizeImageWidth, Constants.Vision.resizeImageHeight);
-        FindBallsGripPipeline findBallsGripPipeline = getFindBallsGripPipeline(ballColor);
+       // FindBallsGripPipeline findBallsGripPipeline = getFindBallsGripPipeline(ballColor);
 
         lastImageTaken = System.currentTimeMillis();
 
@@ -53,6 +61,25 @@ public class VisionSubsystem extends SubsystemBase {
 //            }
 //        });
 //        visionThread.start();
+        NetworkTableInstance inst = NetworkTableInstance.getDefault();
+        NetworkTable table = inst.getTable("datatable");
+        seenEntry = table.getEntry("seen");
+        centerXEntry = table.getEntry("centerX");
+        centerYEntry = table.getEntry("centerY");
+        distanceEntry = table.getEntry("distance");
+    }
+    @Override
+    public void periodic(){
+        boolean seen = seenEntry.getBoolean(false);
+        double centerX = centerXEntry.getDouble(0);
+        double centerY = centerYEntry.getDouble(0);
+        double distance = distanceEntry.getDouble(0);
+
+        if(seen){
+            rawPositions = List.of(new BallLocation(new Point(centerX, centerY)));
+        }else{
+            rawPositions = List.of();
+        }
     }
 
     public List<BallLocation> getBallLocations() {

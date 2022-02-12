@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,16 +13,14 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     //Robots Suck Balls
 
-    private final CANSparkMax conveyorMotor;
+    private final MotorController conveyorMotor;
     private double speed;
 
     /**
      * Creates a new ExampleSubsystem.
      */
     public ConveyorSubsystem() {
-        this.conveyorMotor = new CANSparkMax(
-                Constants.ConveyorSubs.conveyorMotorChannel,
-                CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.conveyorMotor = new Spark(Constants.ConveyorSubs.conveyorMotorChannel);
     }
 
     public void setConveyorSpeed(double speed) {
