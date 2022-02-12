@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,7 +20,7 @@ public class ConveyorSubsystem extends SubsystemBase {
      * Creates a new ExampleSubsystem.
      */
     public ConveyorSubsystem() {
-        this.conveyorMotor = new Victor(Constants.ConveyorSubs.conveyorMotorChannel);
+        this.conveyorMotor = new Victor(Constants.Conveyor.motorChannel);
     }
 
     public void setConveyorSpeed(double speed) {

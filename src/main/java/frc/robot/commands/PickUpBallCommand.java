@@ -12,6 +12,11 @@ public class PickUpBallCommand extends CommandBase {
     }
     @Override
     public void execute() {
+        ballConsumptionSubsystem.setPickUpMode(BallPickupState.out);
+    }
+
+    @Override
+    public void end(boolean interrupted){
         ballConsumptionSubsystem.setPickUpMode(BallPickupState.in);
     }
 }

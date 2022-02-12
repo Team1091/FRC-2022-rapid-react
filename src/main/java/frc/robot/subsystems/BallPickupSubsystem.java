@@ -4,35 +4,45 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BallPickupState;
+import frc.robot.Constants;
 
 public class BallPickupSubsystem extends SubsystemBase {
 
-//    private final DoubleSolenoid ballIngestionSolenoid;
-//    private final MotorController inputMotor;
+    private final DoubleSolenoid ballIngestionSolenoid;
+    private final MotorController inputMotor;
+    private BallPickupState ballPickupState;
 
     public BallPickupSubsystem() {
-//        this.ballIngestionSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-//                Constants.Pneumatics.grabberIn, Constants.Pneumatics.grabberOut);
-//        this.inputMotor = new CANSparkMax(Constants.Pneumatics.inputMotorChannel,
-//                CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.ballIngestionSolenoid = new DoubleSolenoid(
+                PneumaticsModuleType.CTREPCM,
+                Constants.BallPickup.grabberIn,
+                Constants.BallPickup.grabberOut);
+        this.inputMotor = new Victor(Constants.BallPickup.inputMotorChannel);
+        this.ballPickupState = BallPickupState.in;
+    }
+
+    @Override
+    public void periodic() {
+        switch (ballPickupState) {
+            case undetermined:
+            case in:
+                ballIngestionSolenoid.set(DoubleSolenoid.Value.kReverse);
+                inputMotor.stopMotor();
+                break;
+            case out:
+                ballIngestionSolenoid.set(DoubleSolenoid.Value.kForward);
+                inputMotor.set(Constants.BallPickup.inputMotorSpeed);
+                break;
+        }
     }
 
     public void setPickUpMode(BallPickupState ballPickupState){
-        switch (ballPickupState) {
-            case undetermined:
-//                ballIngestionSolenoid.set(DoubleSolenoid.Value.kReverse);
-//                inputMotor.stopMotor();
-                break;
-            case out:
-//                ballIngestionSolenoid.set(DoubleSolenoid.Value.kForward);
-//                inputMotor.set(Constants.Pneumatics.inputMotorSpeed);
-                break;
-            case in:
-//                ballIngestionSolenoid.set(DoubleSolenoid.Value.kForward);
-//                inputMotor.set(-Constants.Pneumatics.inputMotorSpeed);
-                break;
-        }
+        this.ballPickupState = ballPickupState;
     }
 }
