@@ -22,7 +22,7 @@ public final class Constants {
 
 
     public static final class ConveyorSubs {
-        public final static int conveyorMotorChannel = 6;
+        public final static int conveyorMotorChannel = 1;
     }
 
     public static final class Pneumatics {
