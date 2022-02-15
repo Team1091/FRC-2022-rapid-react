@@ -7,7 +7,6 @@ import frc.robot.subsystems.VisionSubsystem;
 
 public class ToggleCameraCommand extends CommandBase {
 
-
     private final VisionSubsystem visionSubsystem;
 
     public ToggleCameraCommand(VisionSubsystem visionSubsystem) {

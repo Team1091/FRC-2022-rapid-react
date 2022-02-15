@@ -14,12 +14,12 @@ import frc.robot.Constants;
 
 public class BallPickupSubsystem extends SubsystemBase {
 
-    private final DoubleSolenoid ballIngestionSolenoid;
+    private final DoubleSolenoid ballPickupSolenoid;
     private final MotorController inputMotor;
     private BallPickupState ballPickupState;
 
     public BallPickupSubsystem() {
-        this.ballIngestionSolenoid = new DoubleSolenoid(
+        this.ballPickupSolenoid = new DoubleSolenoid(
                 PneumaticsModuleType.CTREPCM,
                 Constants.BallPickup.grabberIn,
                 Constants.BallPickup.grabberOut);
@@ -32,11 +32,11 @@ public class BallPickupSubsystem extends SubsystemBase {
         switch (ballPickupState) {
             case undetermined:
             case in:
-                ballIngestionSolenoid.set(DoubleSolenoid.Value.kReverse);
+                ballPickupSolenoid.set(DoubleSolenoid.Value.kReverse);
                 inputMotor.stopMotor();
                 break;
             case out:
-                ballIngestionSolenoid.set(DoubleSolenoid.Value.kForward);
+                ballPickupSolenoid.set(DoubleSolenoid.Value.kForward);
                 inputMotor.set(Constants.BallPickup.inputMotorSpeed);
                 break;
         }

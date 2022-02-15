@@ -20,16 +20,15 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    //driver station recieve what team color we are on
+    //driver station receive what team color we are on
     final VisionLookForBallColor teamColor = DriverStation.getAlliance()== DriverStation.Alliance.Blue ? VisionLookForBallColor.blue:VisionLookForBallColor.red;
 
     // The robot's subsystems and commands are defined here...
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-    private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
+    private final EscalatorSubsystem escalatorSubsystem = new EscalatorSubsystem();
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
-    private final VisionSubsystem visionSubsystem = new VisionSubsystem(VisionLookForBallColor.blue);
+    private final VisionSubsystem visionSubsystem = new VisionSubsystem(teamColor);
     private final BallPickupSubsystem ballConsumptionSubsystem = new BallPickupSubsystem();
-    //module type may not be correct
     private final XboxController controller = new XboxController(Constants.XboxController.port);
 
     /**
@@ -58,10 +57,6 @@ public class RobotContainer {
                         }
                 )
         );
-
-        ballConsumptionSubsystem.setDefaultCommand(
-                new RetractBallPickUpCommand(ballConsumptionSubsystem)
-        );
     }
 
     /**
@@ -71,21 +66,21 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        //up pneumatic climb
+        //climber out
         var xButton = new JoystickButton(controller, XboxController.Button.kX.value);
-        xButton.whenActive(new ClimbCommand(climbSubsystem, 1));
+        xButton.whenActive(new ClimbCommand(climbSubsystem, ClimberState.out));
 
-        //down pneumatic climb
+        //climber in
         var aButton = new JoystickButton(controller, XboxController.Button.kA.value);
-        aButton.whenActive(new ClimbCommand(climbSubsystem, -1));
+        aButton.whenActive(new ClimbCommand(climbSubsystem, ClimberState.in));
 
-        //forward conveyor
+        //escalator down
         var rightBumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
-        rightBumper.whileHeld(new ConveyorCommand(conveyorSubsystem, 1));
+        rightBumper.whileHeld(new RunEscalatorCommand(escalatorSubsystem, 1));
 
-        //reverse conveyor
+        //escalator up
         var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
-        leftBumper.whileHeld(new ConveyorCommand(conveyorSubsystem, -1));
+        leftBumper.whileHeld(new RunEscalatorCommand(escalatorSubsystem, -1));
 
         //ball consumption system down and spin rotors in
         var bButton = new JoystickButton(controller, XboxController.Button.kB.value);
@@ -94,7 +89,6 @@ public class RobotContainer {
         //Changes cameras
         var yButton = new JoystickButton(controller, XboxController.Button.kY.value);
         yButton.whileActiveOnce(new ToggleCameraCommand(visionSubsystem));
-
     }
 
     /**
@@ -103,13 +97,11 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
         return new SequentialCommandGroup(
-                // TODO : add this back in
-//                new ParallelRaceGroup(
-//                        new ConveyorCommand(conveyorSubsystem, 1),
-//                        new TimerCommand(5)
-//                ),
+                new ParallelRaceGroup(
+                        new RunEscalatorCommand(escalatorSubsystem, 1),
+                        new TimerCommand(5)
+                ),
                 new DistanceDriveCommand(driveTrainSubsystem, 3.0),
                 new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(

@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
 public class TimerCommand extends CommandBase {
     private final Timer timer;
     private final double duration;
@@ -13,7 +12,6 @@ public class TimerCommand extends CommandBase {
         this.duration = seconds;
     }
 
-
     @Override
     public void initialize() {
         timer.reset();
@@ -22,12 +20,10 @@ public class TimerCommand extends CommandBase {
 
     @Override
     public void execute() {
-
     }
 
     @Override
     public void end(boolean interrupted) {
-
     }
 
     @Override

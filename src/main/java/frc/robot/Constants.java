@@ -21,7 +21,7 @@ public final class Constants {
     }
 
 
-    public static final class Conveyor {
+    public static final class Escalator {
         public final static int motorChannel = 1;
     }
 
@@ -42,5 +42,10 @@ public final class Constants {
         public final static int resizeImageHeight = 120;
         public final static int backCameraPort = 1;
 
+    }
+
+    public static final class Climber {
+        public final static int climberIn = 1;
+        public final static int climberOut = 2;
     }
 }

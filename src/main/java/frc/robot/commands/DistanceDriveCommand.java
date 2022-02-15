@@ -15,7 +15,7 @@ public class DistanceDriveCommand extends CommandBase {
     ) {
         this.driveTrainSubsystem = driveTrainSubsystem;
         this.xDistance = xDistance;
-        this.isReverse = xDistance < 0; //figures out if it needs to go backwards
+        this.isReverse = xDistance < 0;
         addRequirements(this.driveTrainSubsystem);
     }
 
@@ -36,11 +36,10 @@ public class DistanceDriveCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-
         if (isReverse) { //this could be backwards, fix if found during trial and error
             return (driveTrainSubsystem.getLeftEncoder() < leftEncoderTarget);
-        } else {
-            return (driveTrainSubsystem.getLeftEncoder() > leftEncoderTarget);
         }
+
+        return (driveTrainSubsystem.getLeftEncoder() > leftEncoderTarget);
     }
 }

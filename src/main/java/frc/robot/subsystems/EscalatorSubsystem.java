@@ -9,27 +9,21 @@ import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ConveyorSubsystem extends SubsystemBase {
+public class EscalatorSubsystem extends SubsystemBase {
 
-    //Robots Suck Balls
-
-    private final MotorController conveyorMotor;
+    private final MotorController escalatorMotor;
     private double speed;
 
-    /**
-     * Creates a new ExampleSubsystem.
-     */
-    public ConveyorSubsystem() {
-        this.conveyorMotor = new Victor(Constants.Conveyor.motorChannel);
+    public EscalatorSubsystem() {
+        this.escalatorMotor = new Victor(Constants.Escalator.motorChannel);
     }
 
-    public void setConveyorSpeed(double speed) {
+    public void setEscalatorSpeed(double speed) {
         this.speed = speed;
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
-        conveyorMotor.set(speed);
+        escalatorMotor.set(speed);
     }
 }

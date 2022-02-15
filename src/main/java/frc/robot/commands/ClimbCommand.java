@@ -5,21 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.ClimberState;
 import frc.robot.subsystems.ClimbSubsystem;
 
-/**
- * An example command that uses an example subsystem.
- */
 public class ClimbCommand extends CommandBase {
-    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
     private final ClimbSubsystem climbSubsystem;
-    private final int inAndOutPneumatic;
+    private final ClimberState state;
 
-
-    public ClimbCommand(ClimbSubsystem subsystem, int inAndOutPneumatic) {
+    public ClimbCommand(ClimbSubsystem subsystem, ClimberState state) {
         this.climbSubsystem = subsystem;
-        this.inAndOutPneumatic = inAndOutPneumatic;
-        // Use addRequirements() here to declare subsystem dependencies.
+        this.state = state;
         addRequirements(subsystem);
     }
 
@@ -31,13 +27,13 @@ public class ClimbCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        climbSubsystem.upOrDown(inAndOutPneumatic);
+        climbSubsystem.setState(state);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        climbSubsystem.upOrDown(0);
+        climbSubsystem.setState(ClimberState.in);
     }
 
     // Returns true when the command should end.

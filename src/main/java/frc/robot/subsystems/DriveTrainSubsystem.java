@@ -31,7 +31,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
                 backRightMotor);
     }
 
-
     @Override
     public void periodic() {
         mecanumDrive.driveCartesian(strafeVelocity, forwardBackwardVelocity, rotationVelocity);
@@ -44,10 +43,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public double getLeftEncoder() {
-        return 0;
+        return leftEncoder.getPosition();
     }
 
     public double getRightEncoder() {
-        return 0;
+        return rightEncoder.getPosition();
     }
 }
