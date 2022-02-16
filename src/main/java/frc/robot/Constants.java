@@ -22,13 +22,13 @@ public final class Constants {
 
 
     public static final class Escalator {
-        public final static int motorChannel = 1;
+        public final static int motorChannel = 5;
     }
 
     public static final class BallPickup {
         public final static int grabberIn = 3;
         public final static int grabberOut = 4;
-        public final static int inputMotorChannel = 5; //is a motor not a solenoid
+        public final static int inputMotorChannel = 6; //is a motor not a solenoid
         public final static double inputMotorSpeed = 0.8; //make negative to reverse rotor
     }
 

@@ -31,6 +31,4 @@ public class LightCommand extends CommandBase {
     public boolean isFinished() {
         return false;
     }
-
-
 }
