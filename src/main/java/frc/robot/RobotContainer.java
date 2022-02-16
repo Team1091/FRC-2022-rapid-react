@@ -86,7 +86,7 @@ public class RobotContainer {
         //ball consumption system down and spin rotors in
         var bButton = new JoystickButton(controller, XboxController.Button.kB.value);
         bButton.whenActive(new RetractBallPickUpCommand(ballConsumptionSubsystem));
-        bButton.whenActive(new LightSubsystem(lightSubsystem));
+        bButton.whenActive(new LightCommand(lightSubsystem));
 
         //Changes cameras
         var yButton = new JoystickButton(controller, XboxController.Button.kY.value);
