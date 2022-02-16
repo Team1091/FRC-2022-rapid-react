@@ -6,10 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LightSubsystem extends SubsystemBase {
 
-
     private SerialPort arduino; //The serial port that we try to communicate with
-
-    private Timer timer; //The timer to keep track of when we send our signal to the Arduino
 
     public LightSubsystem() {
 
@@ -36,30 +33,23 @@ public class LightSubsystem extends SubsystemBase {
                 }
             }
         }
-
-        //Create a timer that will be used to keep track of when we should send
-        //a signal and start it.
-        timer = new Timer();
-        timer.start();
     }
 
-
-
-//    @Override
-//    public void robotPeriodic() {
-//        //If more than 5 seconds has passed
-//        if(timer.get() > 5) {
+    public void setLights(LightColors lightColors) {
+        arduino.write(new byte[] { ((byte)lightColors.ordinal()) },1);
 //            //Output that we wrote to the arduino, write our "trigger byte"
 //            //to the arduino and reset the timer for next time
 //            System.out.println("Wrote to Arduino");
 //            arduino.write(new byte[] {0x12}, 1);
-//            timer.reset();
-//        }
 //
 //        //If we've received something, read the entire buffer
 //        //from the arduino as a string
 //        if(arduino.getBytesReceived() > 0) {
 //            System.out.print(arduino.readString());
 //        }
-//    }
+    }
+
+    public enum LightColors {
+        OFF, RED, BLUE
+    }
 }
