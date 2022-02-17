@@ -28,7 +28,7 @@ public class RobotContainer {
     private final EscalatorSubsystem escalatorSubsystem = new EscalatorSubsystem();
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
     private final VisionSubsystem visionSubsystem = new VisionSubsystem(teamColor);
-    private final BallPickupSubsystem ballConsumptionSubsystem = new BallPickupSubsystem();
+    private final BallPickupSubsystem ballPickupSubsystem = new BallPickupSubsystem();
     // private final LightSubsystem lightSubsystem = new LightSubsystem();
     private final XboxController controller = new XboxController(Constants.XboxController.port);
 
@@ -85,12 +85,16 @@ public class RobotContainer {
 
         //ball consumption system down and spin rotors in
         var bButton = new JoystickButton(controller, XboxController.Button.kB.value);
-        bButton.whenActive(new RetractBallPickUpCommand(ballConsumptionSubsystem));
+        bButton.whenActive(new RetractBallPickUpCommand(ballPickupSubsystem));
         // bButton.whenActive(new LightCommand(lightSubsystem));
 
         //Changes cameras
         var yButton = new JoystickButton(controller, XboxController.Button.kY.value);
         yButton.whileActiveOnce(new ToggleCameraCommand(visionSubsystem));
+
+        //pick up ball --> drop picker upper and run pick up motor
+        var startButt = new JoystickButton(controller, XboxController.Button.kStart.value);
+        startButt.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
     }
 
     /**
@@ -107,7 +111,7 @@ public class RobotContainer {
                 new DistanceDriveCommand(driveTrainSubsystem, 3.0),
                 new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(
-                    new PickUpBallCommand(ballConsumptionSubsystem),
+                    new PickUpBallCommand(ballPickupSubsystem),
                     new TimerCommand(5)
                 )
         );
