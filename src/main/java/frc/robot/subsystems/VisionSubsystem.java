@@ -28,7 +28,7 @@ public class VisionSubsystem extends SubsystemBase {
     private VideoSink sink;
     private final int checkIfUpdatingAfterMillis = 3000;
     private final VideoCamera frontcam;
-    private final VideoCamera backcam;
+//    private final VideoCamera backcam;
     private boolean isForward = true;
     NetworkTableEntry seenEntry;
     NetworkTableEntry centerXEntry;
@@ -37,9 +37,9 @@ public class VisionSubsystem extends SubsystemBase {
 
     public VisionSubsystem(VisionLookForBallColor ballColor) {
         frontcam = CameraServer.startAutomaticCapture(Constants.Vision.frontCameraPort);
-        backcam = CameraServer.startAutomaticCapture(Constants.Vision.backCameraPort);
+//        backcam = CameraServer.startAutomaticCapture(Constants.Vision.backCameraPort);
         sink = CameraServer.getServer();
-        sink.setSource(backcam);
+        sink.setSource(frontcam);
 
         frontcam.setResolution(Constants.Vision.resizeImageWidth, Constants.Vision.resizeImageHeight);
        // FindBallsGripPipeline findBallsGripPipeline = getFindBallsGripPipeline(ballColor);
@@ -95,7 +95,7 @@ public class VisionSubsystem extends SubsystemBase {
         this.isForward = isForward;
         if (isForward) {
             sink.setSource(frontcam);
-        } else sink.setSource(backcam);
+        } // else sink.setSource(backcam);
     }
 
     public BallLocation getClosestBall() {

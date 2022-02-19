@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.AccelerationCurve;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 import java.util.function.Supplier;
@@ -10,6 +11,10 @@ public class MecanumDriveCommand extends CommandBase {
     private final Supplier<Double> strafeVelocity;
     private final Supplier<Double> forwardBackwardVelocity;
     private final Supplier<Double> rotationVelocity;
+
+    private final AccelerationCurve strafeCurve = new AccelerationCurve(3, .275, .6);
+    private final AccelerationCurve forwardBackwardCurve = new AccelerationCurve(1, .125, .6);
+    private final AccelerationCurve rotationCurve = new AccelerationCurve(3, .275, .6);
 
     public MecanumDriveCommand(
             DriveTrainSubsystem driveTrainSubsystem,
@@ -30,7 +35,14 @@ public class MecanumDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        driveTrainSubsystem.mecanumDrive(strafeVelocity.get(), forwardBackwardVelocity.get(), rotationVelocity.get());
+        strafeCurve.set(strafeVelocity.get());
+        forwardBackwardCurve.set((forwardBackwardVelocity.get()));
+        rotationCurve.set(rotationVelocity.get());
+
+        driveTrainSubsystem.mecanumDrive(
+                strafeCurve.getCurrentSpeed(),
+                forwardBackwardCurve.getCurrentSpeed(),
+                rotationCurve.getCurrentSpeed());
     }
 
     @Override

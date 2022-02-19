@@ -52,7 +52,7 @@ public class RobotContainer {
                             return input;
                         },
                         () -> {
-                            var input = controller.getRightX();
+                            var input = -controller.getRightX();
                             SmartDashboard.putNumber("rotation", input);
                             return input;
                         }
@@ -85,7 +85,7 @@ public class RobotContainer {
 
         //ball consumption system down and spin rotors in
         var bButton = new JoystickButton(controller, XboxController.Button.kB.value);
-        bButton.whenActive(new RetractBallPickUpCommand(ballPickupSubsystem));
+        bButton.whileHeld(new RetractBallPickUpCommand(ballPickupSubsystem));
         // bButton.whenActive(new LightCommand(lightSubsystem));
 
         //Changes cameras
@@ -106,9 +106,9 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 new ParallelRaceGroup(
                         new RunEscalatorCommand(escalatorSubsystem, 1),
-                        new TimerCommand(5)
+                        new TimerCommand(1)
                 ),
-                new DistanceDriveCommand(driveTrainSubsystem, 3.0),
+                new DistanceDriveCommand(driveTrainSubsystem, -3.0),
                 new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(
                     new PickUpBallCommand(ballPickupSubsystem),
