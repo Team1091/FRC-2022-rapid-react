@@ -15,4 +15,9 @@ public class RetractBallPickUpCommand extends CommandBase {
     public void execute() {
         ballConsumptionSubsystem.setPickUpMode(BallPickupState.out);
     }
+
+    @Override
+    public void end(boolean isInterrupted){
+        ballConsumptionSubsystem.setPickUpMode(BallPickupState.in);
+    }
 }
