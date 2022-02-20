@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BallPickupState;
 import frc.robot.Constants;
@@ -32,10 +33,12 @@ public class BallPickupSubsystem extends SubsystemBase {
         switch (ballPickupState) {
             case undetermined:
             case in:
+                SmartDashboard.putString("ballPickupSoleniod", "In");
                 ballPickupSolenoid.set(DoubleSolenoid.Value.kReverse);
                 inputMotor.stopMotor();
                 break;
             case out:
+                SmartDashboard.putString("ballPickupSoleniod", "Out");
                 ballPickupSolenoid.set(DoubleSolenoid.Value.kForward);
                 inputMotor.set(Constants.BallPickup.inputMotorSpeed);
                 break;

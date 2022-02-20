@@ -26,8 +26,8 @@ public final class Constants {
     }
 
     public static final class BallPickup {
-        public final static int grabberIn = 3;
-        public final static int grabberOut = 4;
+        public final static int grabberIn = 2;
+        public final static int grabberOut = 3;
         public final static int inputMotorChannel = 6; //is a motor not a solenoid
         public final static double inputMotorSpeed = 0.8; //make negative to reverse rotor
     }
@@ -46,6 +46,6 @@ public final class Constants {
 
     public static final class Climber {
         public final static int climberIn = 1;
-        public final static int climberOut = 2;
+        public final static int climberOut = 0;
     }
 }
