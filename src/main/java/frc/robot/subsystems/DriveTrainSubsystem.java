@@ -40,7 +40,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public void mecanumDrive(double strafeVelocity, double forwardBackwardVelocity, double rotationVelocity) {
-        this.strafeVelocity = strafeVelocity;
+        this.strafeVelocity = strafeVelocity/2;
         this.forwardBackwardVelocity = forwardBackwardVelocity;
         this.rotationVelocity = rotationVelocity;
     }

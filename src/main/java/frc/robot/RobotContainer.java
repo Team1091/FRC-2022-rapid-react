@@ -98,6 +98,7 @@ public class RobotContainer {
         startButt.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
     }
 
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -109,7 +110,7 @@ public class RobotContainer {
                         new RunEscalatorCommand(escalatorSubsystem, 1),
                         new TimerCommand(1)
                 ),
-                new DistanceDriveCommand(driveTrainSubsystem, -3.0),
+                new DistanceDriveCommand(driveTrainSubsystem, -6.0),
                 new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(
                     new PickUpBallCommand(ballPickupSubsystem),
