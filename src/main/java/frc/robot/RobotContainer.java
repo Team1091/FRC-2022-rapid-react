@@ -30,7 +30,8 @@ public class RobotContainer {
     private final VisionSubsystem visionSubsystem = new VisionSubsystem(teamColor);
     private final BallPickupSubsystem ballPickupSubsystem = new BallPickupSubsystem();
     private final LightSubsystem lightSubsystem = new LightSubsystem();
-    private final XboxController controller = new XboxController(Constants.XboxController.port);
+    private final XboxController driverController = new XboxController(Constants.XboxController.driverPort);
+    private final XboxController payloadSpecialistController = new XboxController(Constants.XboxController.payloadSpecallistPort);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -42,17 +43,17 @@ public class RobotContainer {
                 new MecanumDriveCommand(
                         driveTrainSubsystem,
                         () -> {
-                            var input = controller.getLeftX();
+                            var input = driverController.getLeftX();
                             SmartDashboard.putNumber("strafing", input);
                             return input;
                         },
                         () -> {
-                            var input = controller.getLeftY();
+                            var input = driverController.getLeftY();
                             SmartDashboard.putNumber("forwards", input);
                             return input;
                         },
                         () -> {
-                            var input = -controller.getRightX();
+                            var input = -driverController.getRightX();
                             SmartDashboard.putNumber("rotation", input);
                             return input;
                         }
@@ -67,37 +68,43 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+        var aButton = new JoystickButton(payloadSpecialistController, XboxController.Button.kA.value);
+        var bButton = new JoystickButton(payloadSpecialistController, XboxController.Button.kB.value);
+        var xButton = new JoystickButton(payloadSpecialistController, XboxController.Button.kX.value);
+        var yButton = new JoystickButton(payloadSpecialistController, XboxController.Button.kY.value);
+        var rightBumper = new JoystickButton(payloadSpecialistController, XboxController.Button.kRightBumper.value);
+        var leftBumper = new JoystickButton(payloadSpecialistController, XboxController.Button.kLeftBumper.value);
+        var backButt = new JoystickButton(payloadSpecialistController, XboxController.Button.kBack.value);
+
+
+
         //climber out
-        var xButton = new JoystickButton(controller, XboxController.Button.kX.value);
-        xButton.whenActive(new ClimbCommand(climbSubsystem, ClimberState.out));
-
+        yButton.whenActive(new ClimbCommand(climbSubsystem, ClimberState.out));
         //climber in
-        var aButton = new JoystickButton(controller, XboxController.Button.kA.value);
-        aButton.whenActive(new ClimbCommand(climbSubsystem, ClimberState.in));
+        xButton.whenActive(new ClimbCommand(climbSubsystem, ClimberState.in));
 
-        //escalator down
-        var rightBumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
-        rightBumper.whileHeld(new RunEscalatorCommand(escalatorSubsystem, 1));
+        //escalator half speed
+        aButton.whileHeld(new RunEscalatorCommand(escalatorSubsystem, -0.5));
 
-        //escalator up
-        var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
-        leftBumper.whileHeld(new RunEscalatorCommand(escalatorSubsystem, -1));
+        //escalator full up
+        bButton.whileHeld(new RunEscalatorCommand(escalatorSubsystem, -1));
+
+        //escalator full back
+        backButt.whileHeld(new RunEscalatorCommand(escalatorSubsystem,1));
 
         //ball consumption system down and spin rotors in
-        var bButton = new JoystickButton(controller, XboxController.Button.kB.value);
-        bButton.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
+        rightBumper.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
 
         // bButton.whenActive(new LightCommand(lightSubsystem));
 
         //Changes cameras
-        //var yButton = new JoystickButton(controller, XboxController.Button.kY.value);
         //yButton.whileActiveOnce(new ToggleCameraCommand(visionSubsystem));
 
         //pick up ball --> drop picker upper and run pick up motor
-        var startButt = new JoystickButton(controller, XboxController.Button.kStart.value);
+        var startButt = new JoystickButton(payloadSpecialistController, XboxController.Button.kStart.value);
         startButt.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
 
-        var backButton = new JoystickButton(controller, XboxController.Button.kBack.value);
+        var backButton = new JoystickButton(payloadSpecialistController, XboxController.Button.kBack.value);
         backButton.whileHeld(new LightCommand(lightSubsystem));
     }
 

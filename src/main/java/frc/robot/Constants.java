@@ -33,7 +33,8 @@ public final class Constants {
     }
 
     public static final class XboxController {
-        public final static int port = 0;
+        public final static int driverPort = 0;
+        public final static int payloadSpecallistPort = 1;
     }
 
     public static final class Vision {
