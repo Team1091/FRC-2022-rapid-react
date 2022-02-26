@@ -29,7 +29,7 @@ public class RobotContainer {
     private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
     private final VisionSubsystem visionSubsystem = new VisionSubsystem(teamColor);
     private final BallPickupSubsystem ballPickupSubsystem = new BallPickupSubsystem();
-    // private final LightSubsystem lightSubsystem = new LightSubsystem();
+    private final LightSubsystem lightSubsystem = new LightSubsystem();
     private final XboxController controller = new XboxController(Constants.XboxController.port);
 
     /**
@@ -96,6 +96,9 @@ public class RobotContainer {
         //pick up ball --> drop picker upper and run pick up motor
         var startButt = new JoystickButton(controller, XboxController.Button.kStart.value);
         startButt.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
+
+        var backButton = new JoystickButton(controller, XboxController.Button.kBack.value);
+        backButton.whileHeld(new LightCommand(lightSubsystem));
     }
 
 

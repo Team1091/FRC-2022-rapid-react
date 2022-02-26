@@ -36,20 +36,19 @@ public class LightSubsystem extends SubsystemBase {
     }
 
     public void setLights(LightColors lightColors) {
-        arduino.write(new byte[] { ((byte)lightColors.ordinal()) },1);
-//            //Output that we wrote to the arduino, write our "trigger byte"
-//            //to the arduino and reset the timer for next time
-//            System.out.println("Wrote to Arduino");
-//            arduino.write(new byte[] {0x12}, 1);
-//
-//        //If we've received something, read the entire buffer
-//        //from the arduino as a string
-//        if(arduino.getBytesReceived() > 0) {
-//            System.out.print(arduino.readString());
-//        }
+        arduino.write(new byte[] {lightColors.arduinoColor()},1);
     }
 
     public enum LightColors {
-        OFF, RED, BLUE
+        OFF((byte)0), RED((byte)0xff0000), BLUE((byte)0x0000ff);
+
+        public final byte colorByte;
+        LightColors(byte colorByte){
+            this.colorByte = colorByte;
+        }
+
+        public byte arduinoColor(){
+            return colorByte;
+        }
     }
 }
