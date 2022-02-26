@@ -4,11 +4,15 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.awt.*;
+
 public class LightSubsystem extends SubsystemBase {
 
     private SerialPort arduino; //The serial port that we try to communicate with
+    private LightColors lightColors;
 
     public LightSubsystem() {
+        this.lightColors = LightColors.OFF;
 
         //A "Capture Try/Catch". Tries all the possible serial port
         //connections that make sense if you're using the USB ports
@@ -35,12 +39,17 @@ public class LightSubsystem extends SubsystemBase {
         }
     }
 
-    public void setLights(LightColors lightColors) {
+    @Override
+    public void periodic() {
         arduino.write(new byte[] {lightColors.arduinoColor()},1);
     }
 
+    public void setLights(LightColors lightColors) {
+        this.lightColors = lightColors;
+    }
+
     public enum LightColors {
-        OFF((byte)0), RED((byte)0xff0000), BLUE((byte)0x0000ff);
+        OFF((byte)Color.yellow.getRGB()), RED((byte)0xff0000), BLUE((byte)0x0000ff);
 
         public final byte colorByte;
         LightColors(byte colorByte){

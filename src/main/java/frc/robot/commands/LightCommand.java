@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.LightSubsystem;
@@ -14,7 +15,13 @@ public class LightCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        this.lightSubsystem.setLights(LightSubsystem.LightColors.BLUE);
+        if(DriverStation.getAlliance() == DriverStation.Alliance.Blue){
+            this.lightSubsystem.setLights(LightSubsystem.LightColors.BLUE);
+        }
+
+        if(DriverStation.getAlliance() == DriverStation.Alliance.Red){
+            this.lightSubsystem.setLights(LightSubsystem.LightColors.RED);
+        }
     }
 
 //    @Override
