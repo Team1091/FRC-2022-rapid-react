@@ -42,8 +42,7 @@ public class LightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        byte[] arduinoSender = ByteBuffer.allocate(4).putInt(lightColors.arduinoColor()).array();
-        arduino.write(arduinoSender,arduinoSender.length);
+        arduino.write(new byte[] {lightColors.arduinoColor()}, 1);
     }
 
     public void setLights(LightColors lightColors) {
@@ -51,7 +50,7 @@ public class LightSubsystem extends SubsystemBase {
     }
 
     public enum LightColors {
-        OFF((byte)Color.yellow.getRGB()), RED((byte)0xff0000), BLUE((byte)0x0000ff);
+        OFF((byte)0), RED((byte)1), BLUE((byte)2);
 
         public final byte colorByte;
         LightColors(byte colorByte){
