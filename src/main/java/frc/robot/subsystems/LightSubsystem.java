@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.awt.*;
+import java.nio.ByteBuffer;
 
 public class LightSubsystem extends SubsystemBase {
 
@@ -41,7 +42,8 @@ public class LightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        arduino.write(new byte[] {lightColors.arduinoColor()},1);
+        byte[] arduinoSender = ByteBuffer.allocate(4).putInt(lightColors.arduinoColor()).array();
+        arduino.write(arduinoSender,arduinoSender.length);
     }
 
     public void setLights(LightColors lightColors) {
