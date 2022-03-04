@@ -13,12 +13,20 @@ void setup() {
 int pos = 0, dir = 1;
 
 void loop() {
-  long color = 0; //Set 0 if off, 1 if color, 2 if blue
+  long color = 0x005fff; //Set 0 if off, 1 if color, 2 if blue
   // red = 0xff0000;
   // blue = 0x0000ff;
   // orange = ff3300
   if(Serial.available()){
-      color = Serial.parseInt();
+      byte robotColor = Serial.read();
+      if(robotColor == 0)
+        color = 0xff3300;
+      else if(robotColor == 1)
+        color = 0xff0000;
+      else if(robotColor == 2)
+        color = 0x0000ff;
+      else
+        color = 0x00ff00;
   }
 
   strip.setPixelColor(pos - 2, color);
