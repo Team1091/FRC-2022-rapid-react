@@ -77,11 +77,14 @@ public class RobotContainer {
 
         //escalator down
         var rightBumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
-        rightBumper.whileHeld(new RunEscalatorCommand(escalatorSubsystem, 1));
+        rightBumper.whileHeld(new RunEscalatorCommand(escalatorSubsystem, -1));
 
         //escalator up
         var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
-        leftBumper.whileHeld(new RunEscalatorCommand(escalatorSubsystem, -1));
+        leftBumper.whileHeld(new ParallelRaceGroup(
+                new RunEscalatorCommand(escalatorSubsystem, 1),
+                new LightCommand(lightSubsystem)
+        ));
 
         //ball consumption system down and spin rotors in
         var bButton = new JoystickButton(controller, XboxController.Button.kB.value);
@@ -111,6 +114,7 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 new ParallelRaceGroup(
                         new RunEscalatorCommand(escalatorSubsystem, 1),
+                        new LightCommand(lightSubsystem),
                         new TimerCommand(1)
                 ),
                 new DistanceDriveCommand(driveTrainSubsystem, -6.0),
