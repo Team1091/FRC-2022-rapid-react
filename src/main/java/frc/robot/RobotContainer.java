@@ -68,12 +68,12 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         //climber out
-        var xButton = new JoystickButton(controller, XboxController.Button.kX.value);
-        xButton.whenActive(new ClimbCommand(climbSubsystem, ClimberState.out));
+        var startButt = new JoystickButton(controller, XboxController.Button.kStart.value);
+        startButt.whenActive(new ClimbCommand(climbSubsystem, ClimberState.out));
 
         //climber in
-        var aButton = new JoystickButton(controller, XboxController.Button.kA.value);
-        aButton.whenActive(new ClimbCommand(climbSubsystem, ClimberState.in));
+        var backButton = new JoystickButton(controller, XboxController.Button.kBack.value);
+        backButton.whenActive(new ClimbCommand(climbSubsystem, ClimberState.in));
 
         //escalator down
         var rightBumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
@@ -97,11 +97,13 @@ public class RobotContainer {
         //yButton.whileActiveOnce(new ToggleCameraCommand(visionSubsystem));
 
         //pick up ball --> drop picker upper and run pick up motor
-        var startButt = new JoystickButton(controller, XboxController.Button.kStart.value);
-        startButt.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
-
-        var backButton = new JoystickButton(controller, XboxController.Button.kBack.value);
-        backButton.whileHeld(new LightCommand(lightSubsystem));
+        var aButton = new JoystickButton(controller, XboxController.Button.kA.value);
+        //While holding A, it will keep it down but once it gets released it will go back up
+        aButton.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
+//
+        //lights are commented because not important, change later if we want to
+//        var backButton = new JoystickButton(controller, XboxController.Button.kBack.value);
+//        backButton.whileHeld(new LightCommand(lightSubsystem));
     }
 
 
