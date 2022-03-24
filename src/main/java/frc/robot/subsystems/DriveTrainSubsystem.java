@@ -21,6 +21,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
         var backRightMotor = new CANSparkMax(Constants.DriveTrain.backRightMotorChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
         backRightMotor.setInverted(true);
         backLeftMotor.setInverted(true);
+
         leftEncoder = frontLeftMotor.getEncoder();
         rightEncoder = frontRightMotor.getEncoder();
 
@@ -40,7 +41,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public void mecanumDrive(double strafeVelocity, double forwardBackwardVelocity, double rotationVelocity) {
-        this.strafeVelocity = strafeVelocity/2;
+        this.strafeVelocity = strafeVelocity/1.8;
         this.forwardBackwardVelocity = forwardBackwardVelocity;
         this.rotationVelocity = rotationVelocity;
     }

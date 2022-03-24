@@ -44,7 +44,7 @@ public class LightSubsystem extends SubsystemBase {
     public void periodic() {
         arduino.write(new byte[] {lightColors.arduinoColor()}, 1);
     }
-
+    
     public void setLights(LightColors lightColors) {
         this.lightColors = lightColors;
     }
