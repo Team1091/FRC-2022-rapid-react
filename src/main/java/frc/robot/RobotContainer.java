@@ -91,11 +91,11 @@ public class RobotContainer {
 
         //ball consumption system down
         var bButton = new JoystickButton(controller, XboxController.Button.kB.value);
-        bButton.whenActive(new PickUpBallCommand(ballPickupSubsystem, ));
+        bButton.whenActive(new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out));
 
         //ball consumption system up
         var yButton = new JoystickButton(controller, XboxController.Button.kY.value);
-        yButton.whenActive(new PickUpBallCommand(ballPickupSubsystem, 1));
+        yButton.whenActive(new PickUpBallCommand(ballPickupSubsystem, BallPickupState.in));
 
 
         // bButton.whenActive(new LightCommand(lightSubsystem));
@@ -130,7 +130,7 @@ public class RobotContainer {
                 new DistanceDriveCommand(driveTrainSubsystem, -16.0),
                 //new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(
-                    new PickUpBallCommand(ballPickupSubsystem, -1),
+                    new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
                     new TimerCommand(5)
                 )
         );
