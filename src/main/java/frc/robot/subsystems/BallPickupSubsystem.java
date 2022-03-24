@@ -16,7 +16,6 @@ import frc.robot.Constants;
 public class BallPickupSubsystem extends SubsystemBase {
 
     private final DoubleSolenoid ballPickupSolenoid;
-    //private final MotorController inputMotor;
     private BallPickupState ballPickupState;
 
     public BallPickupSubsystem() {
@@ -24,14 +23,13 @@ public class BallPickupSubsystem extends SubsystemBase {
                 PneumaticsModuleType.CTREPCM,
                 Constants.BallPickup.grabberIn,
                 Constants.BallPickup.grabberOut);
-        //this.inputMotor = new Victor(Constants.BallPickup.inputMotorChannel);
+
         this.ballPickupState = BallPickupState.in;
     }
 
     @Override
     public void periodic() {
         switch (ballPickupState) {
-            case undetermined:
             case in:
                 SmartDashboard.putString("ballPickupSoleniod", "In");
                 ballPickupSolenoid.set(DoubleSolenoid.Value.kReverse);
@@ -43,7 +41,7 @@ public class BallPickupSubsystem extends SubsystemBase {
         }
     }
 
-    public void setPickUpMode(BallPickupState ballPickupState){
+    public void setPickUpMode(BallPickupState ballPickupState) {
         this.ballPickupState = ballPickupState;
     }
 }
