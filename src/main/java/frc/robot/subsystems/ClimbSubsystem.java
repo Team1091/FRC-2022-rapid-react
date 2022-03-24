@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ClimberState;
 import frc.robot.Constants;
@@ -26,6 +27,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public void setState(ClimberState state) {
         this.state = state;
+
     }
 
     @Override
@@ -34,9 +36,11 @@ public class ClimbSubsystem extends SubsystemBase {
             case undetermined:
             case in:
                 solenoid.set(DoubleSolenoid.Value.kReverse);
+                SmartDashboard.putString("Climb", "In");
                 break;
             case out:
                 solenoid.set(DoubleSolenoid.Value.kForward);
+                SmartDashboard.putString("Climb", "Out");
                 break;
         }
     }
