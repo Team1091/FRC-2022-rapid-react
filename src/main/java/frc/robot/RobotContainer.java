@@ -21,7 +21,7 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     //driver station receive what team color we are on
-    final VisionLookForBallColor teamColor = DriverStation.getAlliance()== DriverStation.Alliance.Blue ? VisionLookForBallColor.blue:VisionLookForBallColor.red;
+    final VisionLookForBallColor teamColor = DriverStation.getAlliance() == DriverStation.Alliance.Blue ? VisionLookForBallColor.blue : VisionLookForBallColor.red;
 
     // The robot's subsystems and commands are defined here...
     private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
@@ -31,6 +31,9 @@ public class RobotContainer {
     private final BallPickupSubsystem ballPickupSubsystem = new BallPickupSubsystem();
     private final LightSubsystem lightSubsystem = new LightSubsystem();
     private final XboxController controller = new XboxController(Constants.XboxController.port);
+    private final PickUpMotorSubsystem pickUpMotorSubsystem = new PickUpMotorSubsystem();
+
+    private int toggleState = 0;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -86,9 +89,14 @@ public class RobotContainer {
                 new LightCommand(lightSubsystem)
         ));
 
-        //ball consumption system down and spin rotors in
+        //ball consumption system down
         var bButton = new JoystickButton(controller, XboxController.Button.kB.value);
-        bButton.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
+        bButton.whenActive(new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out));
+
+        //ball consumption system up
+        var yButton = new JoystickButton(controller, XboxController.Button.kY.value);
+        yButton.whenActive(new PickUpBallCommand(ballPickupSubsystem, BallPickupState.in));
+
 
         // bButton.whenActive(new LightCommand(lightSubsystem));
 
@@ -99,7 +107,7 @@ public class RobotContainer {
         //pick up ball --> drop picker upper and run pick up motor
         var aButton = new JoystickButton(controller, XboxController.Button.kA.value);
         //While holding A, it will keep it down but once it gets released it will go back up
-        aButton.whileHeld(new PickUpBallCommand(ballPickupSubsystem));
+        aButton.whileHeld(new PickUpMotorCommand(pickUpMotorSubsystem, Constants.BallPickup.inputMotorSpeed));
 //
         //lights are commented because not important, change later if we want to
 //        var backButton = new JoystickButton(controller, XboxController.Button.kBack.value);
@@ -119,11 +127,11 @@ public class RobotContainer {
                         new LightCommand(lightSubsystem),
                         new TimerCommand(1)
                 ),
-                new DistanceDriveCommand(driveTrainSubsystem, -6.0),
-                new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
+                new DistanceDriveCommand(driveTrainSubsystem, -16.0),
+                //new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(
-                    new PickUpBallCommand(ballPickupSubsystem),
-                    new TimerCommand(5)
+                        new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
+                        new TimerCommand(5)
                 )
         );
     }
