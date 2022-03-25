@@ -80,12 +80,12 @@ public class RobotContainer {
 
         //escalator down
         var rightBumper = new JoystickButton(controller, XboxController.Button.kRightBumper.value);
-        rightBumper.whileHeld(new RunEscalatorCommand(escalatorSubsystem, -1));
+        rightBumper.whileHeld(new RunEscalatorCommand(escalatorSubsystem, 1));
 
         //escalator up
-        var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
-        leftBumper.whileHeld(new ParallelRaceGroup(
-                new RunEscalatorCommand(escalatorSubsystem, 1),
+        var aButt = new JoystickButton(controller, XboxController.Button.kA.value);
+        aButt.whileHeld(new ParallelRaceGroup(
+                new RunEscalatorCommand(escalatorSubsystem, -1),
                 new LightCommand(lightSubsystem)
         ));
 
@@ -105,10 +105,18 @@ public class RobotContainer {
         //yButton.whileActiveOnce(new ToggleCameraCommand(visionSubsystem));
 
         //pick up ball --> drop picker upper and run pick up motor
-        var aButton = new JoystickButton(controller, XboxController.Button.kA.value);
+        var leftBumper = new JoystickButton(controller, XboxController.Button.kLeftBumper.value);
         //While holding A, it will keep it down but once it gets released it will go back up
-        aButton.whileHeld(new PickUpMotorCommand(pickUpMotorSubsystem, Constants.BallPickup.inputMotorSpeed));
-//
+        leftBumper.whileHeld(new PickUpMotorCommand(pickUpMotorSubsystem, Constants.BallPickup.inputMotorSpeed));
+
+        //pick up motor run --> in future make it so pressure changes speed
+        //var rightTrigger = new JoystickButton(controller, XboxController.Axis.kRightTrigger.value);
+        //rightTrigger.whileHeld(new PickUpMotorCommand(pickUpMotorSubsystem, 1));
+
+        //escalator run  --> in future make it so pressure changes speed
+        //var leftTrigger = new JoystickButton(controller, XboxController.Axis.kLeftTrigger.value);
+        //leftTrigger.whileHeld(new RunEscalatorCommand(escalatorSubsystem, 1.0));
+
         //lights are commented because not important, change later if we want to
 //        var backButton = new JoystickButton(controller, XboxController.Button.kBack.value);
 //        backButton.whileHeld(new LightCommand(lightSubsystem));
