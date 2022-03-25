@@ -45,7 +45,7 @@ public class RobotContainer {
                 new MecanumDriveCommand(
                         driveTrainSubsystem,
                         () -> {
-                            var input = controller.getLeftX();
+                            var input = -controller.getLeftX();
                             SmartDashboard.putNumber("strafing", input);
                             return input;
                         },
@@ -85,7 +85,7 @@ public class RobotContainer {
         //escalator up
         var aButt = new JoystickButton(controller, XboxController.Button.kA.value);
         aButt.whileHeld(new ParallelRaceGroup(
-                new RunEscalatorCommand(escalatorSubsystem, -1),
+                new RunEscalatorCommand(escalatorSubsystem, -0.8),
                 new LightCommand(lightSubsystem)
         ));
 
@@ -135,7 +135,7 @@ public class RobotContainer {
                         new LightCommand(lightSubsystem),
                         new TimerCommand(1)
                 ),
-                new DistanceDriveCommand(driveTrainSubsystem, -16.0),
+                new DistanceDriveCommand(driveTrainSubsystem, -23.0),
                 //new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(
                         new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
