@@ -97,6 +97,9 @@ public class RobotContainer {
         var yButton = new JoystickButton(controller, XboxController.Button.kY.value);
         yButton.whenActive(new PickUpBallCommand(ballPickupSubsystem, BallPickupState.in));
 
+        var xButton = new JoystickButton(controller, XboxController.Button.kX.value);
+        xButton.whileHeld(new PickUpMotorCommand(pickUpMotorSubsystem, -1));
+
 
         // bButton.whenActive(new LightCommand(lightSubsystem));
 
@@ -133,9 +136,9 @@ public class RobotContainer {
                 new ParallelRaceGroup(
                         new RunEscalatorCommand(escalatorSubsystem, 1),
                         new LightCommand(lightSubsystem),
-                        new TimerCommand(1)
+                        new TimerCommand(1.5)
                 ),
-                new DistanceDriveCommand(driveTrainSubsystem, -23.0),
+                new DistanceDriveCommand(driveTrainSubsystem, -25.0),
                 //new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(
                         new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
