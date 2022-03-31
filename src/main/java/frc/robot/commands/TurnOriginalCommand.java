@@ -24,7 +24,7 @@ public class TurnOriginalCommand extends CommandBase {
 
     @Override
     public void execute() {
-        while (Math.abs(leftEncoder - rightEncoder) > tolerance) {
+        if (Math.abs(leftEncoder - rightEncoder) > tolerance) {
             if (leftEncoder < rightEncoder) { //turn left
                 driveTrainSubsystem.mecanumDrive(0,0,-0.4);
             } else { //turn right
