@@ -164,7 +164,7 @@ public class RobotContainer {
                             new TimerCommand(2.4)
                     ),
                     new TimerCommand(0.2),
-                    new TurnOriginalCommand(driveTrainSubsystem),
+                    new TurnOriginalCommand(driveTrainSubsystem), //if no work then switch to turn
                     new DistanceDriveCommand(driveTrainSubsystem,35.0),
                     new ParallelRaceGroup(
                             new RunEscalatorCommand(escalatorSubsystem,-0.2),
@@ -186,7 +186,7 @@ public class RobotContainer {
                     new DistanceDriveCommand(driveTrainSubsystem, -25.0),
                     new ParallelRaceGroup(
                         new TimerCommand(0.25),
-                        new TurnCommand(driveTrainSubsystem, true, 0.5)//turn slightly right
+                        new TurnCommand(driveTrainSubsystem, false, 0.5)//turn slightly right
                     ),
                     new ParallelRaceGroup(
                             new PickUpMotorCommand(pickUpMotorSubsystem, 1.0),
@@ -194,6 +194,7 @@ public class RobotContainer {
                             new TimerCommand(2.4)
                     ),
                     new TimerCommand(0.2),
+                    new TurnOriginalCommand(driveTrainSubsystem), //if no work then switch to manual turn
                     new DistanceDriveCommand(driveTrainSubsystem, 40.0),
                     new ParallelRaceGroup(
                             new RunEscalatorCommand(escalatorSubsystem,-0.2),
