@@ -138,12 +138,17 @@ public class RobotContainer {
                         new LightCommand(lightSubsystem),
                         new TimerCommand(1.5)
                 ),
-                new DistanceDriveCommand(driveTrainSubsystem, -25.0),
-                //new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
                 new ParallelRaceGroup(
                         new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
-                        new TimerCommand(5)
-                )
+                        new DistanceDriveCommand(driveTrainSubsystem, -25.0)
+                ),
+
+                new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem)
+                //in the future test this if we have time
+                //new TurnOriginalCommand(driveTrainSubsystem),
+                //new DistanceDriveCommand(driveTrainSubsystem, 50.0),
+                //new RunEscalatorCommand(escalatorSubsystem, 1.0),
+
         );
     }
 }
