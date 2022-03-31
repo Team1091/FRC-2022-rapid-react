@@ -6,7 +6,7 @@ import frc.robot.subsystems.BallPickupSubsystem;
 
 public class PickUpBallCommand extends CommandBase {
     private final BallPickupSubsystem ballConsumptionSubsystem;
-    private final BallPickupState togglePickUp; // 0 means undetermined, 1 in, -1 out
+    private final BallPickupState togglePickUp;
 
     public PickUpBallCommand(BallPickupSubsystem ballConsumptionSubsystem, BallPickupState togglePickUp) {
         this.ballConsumptionSubsystem = ballConsumptionSubsystem;

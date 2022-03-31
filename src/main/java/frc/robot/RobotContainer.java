@@ -45,7 +45,7 @@ public class RobotContainer {
                 new MecanumDriveCommand(
                         driveTrainSubsystem,
                         () -> {
-                            var input = controller.getLeftX(); //put negative here to change polarity
+                            var input = -controller.getLeftX(); //put negative here to change polarity
                             SmartDashboard.putNumber("strafing", input);
                             return input;
                         },
@@ -127,22 +127,20 @@ public class RobotContainer {
                         new LightCommand(lightSubsystem),
                         new TimerCommand(1)
                 ),
-                new ParallelRaceGroup(
-                    new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
-                    new DistanceDriveCommand(driveTrainSubsystem, -25.0)
-                ),
-                new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem),
+                new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
+                new DistanceDriveCommand(driveTrainSubsystem, -25.0),
+                //new AutoBallSeekingCommand(driveTrainSubsystem, visionSubsystem, ballPickupSubsystem),
                 new ParallelRaceGroup(
                         new PickUpMotorCommand(pickUpMotorSubsystem, 1.0),
                         new RunEscalatorCommand(escalatorSubsystem, 1.0),
-                        new TimerCommand(0.8)
+                        new TimerCommand(2.4)
                 ),
                 new TurnOriginalCommand(driveTrainSubsystem),
-                new DistanceDriveCommand(driveTrainSubsystem, 50.0),
-                new ParallelRaceGroup(
-                        new RunEscalatorCommand(escalatorSubsystem, 1.0),
-                        new TimerCommand(2)
-                )
+                new DistanceDriveCommand(driveTrainSubsystem, 50.0)//,
+//                new ParallelRaceGroup(
+//                        new RunEscalatorCommand(escalatorSubsystem, 1.0),
+//                        new TimerCommand(2)
+//                )
         );
     }
 }

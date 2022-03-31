@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.BallPickupSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.vision.BallLocation;
@@ -10,18 +11,22 @@ import frc.robot.vision.BallLocation;
 public class AutoBallSeekingCommand extends CommandBase {
     private final VisionSubsystem visionSubsystem;
     private final DriveTrainSubsystem driveTrainSubsystem;
+    private final BallPickupSubsystem ballPickupSubsystem;
     private final int middleOfCam = Constants.Vision.resizeImageWidth / 2;
     private final int forwardTolerance = Constants.Vision.resizeImageWidth / 10;
     private final int strafeTolerance = Constants.Vision.resizeImageWidth / 5;
 
     public AutoBallSeekingCommand(
             DriveTrainSubsystem driveTrainSubsystem,
-            VisionSubsystem visionSubsystem
+            VisionSubsystem visionSubsystem,
+            BallPickupSubsystem ballPickupSubsystem
     ) {
         this.visionSubsystem = visionSubsystem;
         this.driveTrainSubsystem = driveTrainSubsystem;
+        this.ballPickupSubsystem = ballPickupSubsystem;
         addRequirements(this.driveTrainSubsystem);
         addRequirements(this.visionSubsystem);
+        addRequirements(this.ballPickupSubsystem);
     }
 
     @Override
@@ -41,6 +46,7 @@ public class AutoBallSeekingCommand extends CommandBase {
             lookForBall();
             return;
         }
+
 
         if (canDriveForward(ballLocation)) {
             driveForward();
