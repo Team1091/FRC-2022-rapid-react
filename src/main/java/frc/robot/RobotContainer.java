@@ -68,7 +68,7 @@ public class RobotContainer {
         for(StartingPositions p: StartingPositions.values()) {
             startPosChooser.addOption(p.name(), p);
         }
-        startPosChooser.setDefaultOption(StartingPositions.Unknown.name(), StartingPositions.Unknown);
+        startPosChooser.setDefaultOption(StartingPositions.Straight.name(), StartingPositions.Straight);
         SmartDashboard.putData(startPosChooser);
     }
 
@@ -136,12 +136,27 @@ public class RobotContainer {
         // get smart dashboard dropdown value,
         StartingPositions startPos = startPosChooser.getSelected();
         Command customCommand = new DistanceDriveCommand(driveTrainSubsystem, -25.0);
-        if (startPos == StartingPositions.A) {
+        if (startPos == StartingPositions.Straight) {
             customCommand = new SequentialCommandGroup(
-                    new DistanceDriveCommand(driveTrainSubsystem, -25.0),
                     new ParallelRaceGroup(
-                            new TimerCommand(0.2),
-                            new MecanumDriveCommand(driveTrainSubsystem, ()->0.0,()->0.0,()->0.34)//turn slightly
+                            new RunEscalatorCommand(escalatorSubsystem, 1),
+                            new LightCommand(lightSubsystem),
+                            new TimerCommand(1)
+                    ),
+                    new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out)
+            );
+        } else if (startPos == StartingPositions.A) {
+            customCommand = new SequentialCommandGroup(
+                    new ParallelRaceGroup(
+                            new RunEscalatorCommand(escalatorSubsystem, 1),
+                            new LightCommand(lightSubsystem),
+                            new TimerCommand(1)
+                    ),
+                    new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
+                    new DistanceDriveCommand(driveTrainSubsystem, -22.0),
+                    new ParallelRaceGroup(
+                            new TimerCommand(0.25),
+                            new TurnCommand(driveTrainSubsystem, true, 0.5)//turn slightly
                     ),
                     new ParallelRaceGroup(
                             new PickUpMotorCommand(pickUpMotorSubsystem, 1.0),
@@ -162,10 +177,16 @@ public class RobotContainer {
             );
         } else if (startPos == StartingPositions.B) {
             customCommand = new SequentialCommandGroup(
+                    new ParallelRaceGroup(
+                            new RunEscalatorCommand(escalatorSubsystem, 1),
+                            new LightCommand(lightSubsystem),
+                            new TimerCommand(1)
+                    ),
+                    new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
                     new DistanceDriveCommand(driveTrainSubsystem, -25.0),
                     new ParallelRaceGroup(
-                        new TimerCommand(0.35),
-                        new MecanumDriveCommand(driveTrainSubsystem, ()->0.0,()->0.0,()->-0.34)//turn slightly right
+                        new TimerCommand(0.25),
+                        new TurnCommand(driveTrainSubsystem, true, 0.5)//turn slightly right
                     ),
                     new ParallelRaceGroup(
                             new PickUpMotorCommand(pickUpMotorSubsystem, 1.0),
@@ -183,15 +204,18 @@ public class RobotContainer {
                             new TimerCommand(1.3)
                     )
             );
+        } else if (startPos == StartingPositions.None){
+            customCommand = new ParallelRaceGroup(
+                    new RunEscalatorCommand(escalatorSubsystem, 1),
+                    new LightCommand(lightSubsystem),
+                    new TimerCommand(1),
+                    new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out)
+            );
+        } else if (startPos == StartingPositions.Move) {
+            customCommand = new DistanceDriveCommand(driveTrainSubsystem, -20.0);
         }
 
         return new SequentialCommandGroup(
-                new ParallelRaceGroup(
-                        new RunEscalatorCommand(escalatorSubsystem, 1),
-                        new LightCommand(lightSubsystem),
-                        new TimerCommand(1)
-                ),
-                new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
 
                 customCommand // --> is replacement for auto ball seeking
 

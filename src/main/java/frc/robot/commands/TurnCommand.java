@@ -5,28 +5,35 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class TurnCommand extends CommandBase {
     private final DriveTrainSubsystem driveTrainSubsystem;
-    private final Double degreeTarget;
-    private double leftEncoderTarget;
-    private boolean isReverse;
+    private boolean isClock;
+    private double speed;
+    //private final Double degreeTarget;
 
     public TurnCommand(
             DriveTrainSubsystem driveTrainSubsystem,
-            Double degreeClockwise
+            boolean isClock,
+            double speed
+            //Double degreeClockwise
     ) {
         this.driveTrainSubsystem = driveTrainSubsystem;
-        this.degreeTarget = degreeClockwise;
-        this.isReverse = degreeClockwise < 0;
+        this.isClock = isClock;
+        this.speed = speed;
+        //this.degreeTarget = degreeClockwise;
         addRequirements(this.driveTrainSubsystem);
     }
 
     @Override
     public void initialize() {
-       this.leftEncoderTarget = driveTrainSubsystem.getLeftEncoder() + degreeTarget;
     }
 
     @Override
     public void execute() {
-        driveTrainSubsystem.mecanumDrive(0, 0.5*(isReverse?-1:1), 0);
+        if (isClock) {
+            driveTrainSubsystem.mecanumDrive(0, 0, speed);
+        } else {
+            driveTrainSubsystem.mecanumDrive(0, 0, -speed);
+        }
+
     }
 
     @Override
@@ -36,10 +43,6 @@ public class TurnCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (isReverse) { //this could be backwards, fix if found during trial and error
-            return (driveTrainSubsystem.getLeftEncoder() < leftEncoderTarget);
-        }
-
-        return (driveTrainSubsystem.getLeftEncoder() > leftEncoderTarget);
+        return false;
     }
 }
