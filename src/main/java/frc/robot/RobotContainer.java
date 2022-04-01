@@ -135,6 +135,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // get smart dashboard dropdown value,
         StartingPositions startPos = startPosChooser.getSelected();
+        SmartDashboard.putString("Current Auto Start Config",startPos.name());
         Command customCommand = new DistanceDriveCommand(driveTrainSubsystem, -25.0);
         if (startPos == StartingPositions.Straight) {
             customCommand = new SequentialCommandGroup(
@@ -143,7 +144,8 @@ public class RobotContainer {
                             new LightCommand(lightSubsystem),
                             new TimerCommand(1)
                     ),
-                    new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out)
+                    new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
+                    new DistanceDriveCommand(driveTrainSubsystem,-25.0)
             );
         } else if (startPos == StartingPositions.A) {
             customCommand = new SequentialCommandGroup(
@@ -153,22 +155,29 @@ public class RobotContainer {
                             new TimerCommand(1)
                     ),
                     new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out),
-                    new DistanceDriveCommand(driveTrainSubsystem, -22.0),
+                    new DistanceDriveCommand(driveTrainSubsystem, -25.0),
                     new ParallelRaceGroup(
                             new TimerCommand(0.25),
-                            new TurnCommand(driveTrainSubsystem, true, 0.5)//turn slightly
+                            new TurnCommand(driveTrainSubsystem, true, 0.6)//turn slightly
                     ),
-                    new DistanceDriveCommand(driveTrainSubsystem, -3.0),
+                    new DistanceDriveCommand(driveTrainSubsystem, -6.5),
                     new ParallelRaceGroup(
                             new PickUpMotorCommand(pickUpMotorSubsystem, 1.0),
-                            new RunEscalatorCommand(escalatorSubsystem, 1.0),
-                            new TimerCommand(2.4)
+                            //new RunEscalatorCommand(escalatorSubsystem, 1.0),
+                            new TimerCommand(2.2)
                     ),
-                    new TimerCommand(0.2),
-                    new TurnOriginalCommand(driveTrainSubsystem), //if no work then switch to turn
-                    new DistanceDriveCommand(driveTrainSubsystem,35.0),
+                    //new TimerCommand(0.2),
+                    new DistanceDriveCommand(driveTrainSubsystem,6.5),
+                    new ParallelRaceGroup( //turn back
+                            new TimerCommand(0.25),
+                            new TurnCommand(driveTrainSubsystem, false, 0.6)
+                    ),
+                    //new TurnOriginalCommand(driveTrainSubsystem), //if no work then switch to turn
+                    new DistanceDriveCommand(driveTrainSubsystem,25.0),
+                    new TimerCommand(0.8),
+                    new DistanceDriveCommand(driveTrainSubsystem, 1.0),
                     new ParallelRaceGroup(
-                            new RunEscalatorCommand(escalatorSubsystem,-0.2),
+                            //new RunEscalatorCommand(escalatorSubsystem,-0.2),
                             new TimerCommand(0.3)
                     ),
                     new ParallelRaceGroup(
@@ -187,18 +196,26 @@ public class RobotContainer {
                     new DistanceDriveCommand(driveTrainSubsystem, -25.0),
                     new ParallelRaceGroup(
                         new TimerCommand(0.25),
-                        new TurnCommand(driveTrainSubsystem, false, 0.5)//turn slightly right
+                        new TurnCommand(driveTrainSubsystem, false, 0.54)//turn slightly right
                     ),
+                    new DistanceDriveCommand(driveTrainSubsystem, -6.5),
                     new ParallelRaceGroup(
                             new PickUpMotorCommand(pickUpMotorSubsystem, 1.0),
-                            new RunEscalatorCommand(escalatorSubsystem, 1.0),
-                            new TimerCommand(2.4)
+                            //new RunEscalatorCommand(escalatorSubsystem, 1.0),
+                            new TimerCommand(2.2)
                     ),
-                    new TimerCommand(0.2),
-                    new TurnOriginalCommand(driveTrainSubsystem), //if no work then switch to manual turn
-                    new DistanceDriveCommand(driveTrainSubsystem, 40.0),
+                    //new TimerCommand(0.2),
+                    new DistanceDriveCommand(driveTrainSubsystem, 6.5),
+                   // new TurnOriginalCommand(driveTrainSubsystem), //if no work then switch to manual turn
                     new ParallelRaceGroup(
-                            new RunEscalatorCommand(escalatorSubsystem,-0.2),
+                            new TimerCommand(0.25),
+                            new TurnCommand(driveTrainSubsystem,true,0.54)
+                    ),
+                    new DistanceDriveCommand(driveTrainSubsystem, 24.0),
+                    new TimerCommand(0.8),
+                    new DistanceDriveCommand(driveTrainSubsystem, 1.0),
+                    new ParallelRaceGroup(
+                            //new RunEscalatorCommand(escalatorSubsystem,-0.2),
                             new TimerCommand(0.3)
                     ),
                     new ParallelRaceGroup(
@@ -210,11 +227,12 @@ public class RobotContainer {
             customCommand = new ParallelRaceGroup(
                     new RunEscalatorCommand(escalatorSubsystem, 1),
                     new LightCommand(lightSubsystem),
-                    new TimerCommand(1),
-                    new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out)
+                    new TimerCommand(1)
             );
+            new PickUpBallCommand(ballPickupSubsystem, BallPickupState.out);
+
         } else if (startPos == StartingPositions.Move) {
-            customCommand = new DistanceDriveCommand(driveTrainSubsystem, -20.0);
+            customCommand = new DistanceDriveCommand(driveTrainSubsystem, -25.0);
         }
 
         return new SequentialCommandGroup(
