@@ -18,7 +18,7 @@ public final class Constants {
         public final static int frontLeftMotorChannel = 2;
         public final static int frontRightMotorChannel = 3;
         public final static int backRightMotorChannel = 4;
-        public final static double originTolerance = 10.0;
+        public final static double originTolerance = 0.3;
     }
 
 

@@ -158,6 +158,7 @@ public class RobotContainer {
                             new TimerCommand(0.25),
                             new TurnCommand(driveTrainSubsystem, true, 0.5)//turn slightly
                     ),
+                    new DistanceDriveCommand(driveTrainSubsystem, -3.0),
                     new ParallelRaceGroup(
                             new PickUpMotorCommand(pickUpMotorSubsystem, 1.0),
                             new RunEscalatorCommand(escalatorSubsystem, 1.0),
