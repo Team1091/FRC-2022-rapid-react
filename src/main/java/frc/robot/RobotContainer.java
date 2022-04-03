@@ -215,7 +215,6 @@ public class RobotContainer {
                     new TimerCommand(0.8),
                     new DistanceDriveCommand(driveTrainSubsystem, 1.0),
                     new ParallelRaceGroup(
-                            //new RunEscalatorCommand(escalatorSubsystem,-0.2),
                             new TimerCommand(0.3)
                     ),
                     new ParallelRaceGroup(
