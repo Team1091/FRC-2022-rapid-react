@@ -48,17 +48,17 @@ public class RobotContainer {
                 new MecanumDriveCommand(
                         driveTrainSubsystem,
                         () -> {
-                            var input = -controller.getLeftX(); //put negative here to change polarity
+                            var input = -controller.getLeftX()/2; //put negative here to change polarity
                             SmartDashboard.putNumber("strafing", input);
                             return input;
                         },
                         () -> {
-                            var input = controller.getLeftY();
+                            var input = controller.getLeftY()/2;
                             SmartDashboard.putNumber("forwards", input);
                             return input;
                         },
                         () -> {
-                            var input = -controller.getRightX();
+                            var input = -controller.getRightX()/2;
                             SmartDashboard.putNumber("rotation", input);
                             return input;
                         }
